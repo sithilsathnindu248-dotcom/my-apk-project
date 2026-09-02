@@ -1,0 +1,47 @@
+name: Build Android APK
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Create Web Directory & Prepare Capacitor
+        run: |
+          mkdir -p www
+          find . -maxdepth 1 ! -name '.' ! -name '..' ! -name 'www' ! -name '.git' ! -name '.github' -exec mv {} www/ \;
+          npm init -y
+          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npx cap init "STP DASHBOARD" "com.example.app" --web-dir "www"
+          npx cap add android
+          npx cap copy android
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Build Android APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK File
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug.apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
