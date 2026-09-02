@@ -19,6 +19,70 @@ jobs:
         with:
           node-version: 20
 
+      - name: Create Windows App Files
+        shell: powershell
+        run: |
+          New-Item -ItemType Directory -Force -Path windows-app
+          
+          $packageJson = @'
+          {
+            "name": "stp-dashboard",
+            "version": "1.0.0",
+            "productName": "STP DASHBOARD",
+            "main": "main.js",
+            "scripts": {
+              "dist": "electron-builder --win nsis"
+            },
+            "build": {
+              "appId": "com.stpdashboard.app",
+              "directories": {
+                "output": "dist"
+              },
+              "files": [
+                "main.js",
+                "index.html"
+              ],
+              "win": {
+                "target": "nsis"
+              },
+              "publish": null
+            },
+            "devDependencies": {
+              "electron": "^30.0.0",
+              "electron-builder": "^24.13.3"
+            }
+          }
+          '@
+          Set-Content -Path windows-app/package.json -Value $packageJson
+
+          $mainJs = @'
+          const { app, BrowserWindow } = require('electron');
+          const path = require('path');
+
+          function createWindow() {
+            const win = new BrowserWindow({
+              width: 1280,
+              height: 800,
+              autoHideMenuBar: true,
+              webPreferences: {
+                nodeIntegration: false,
+                contextIsolation: true
+              }
+            });
+
+            win.loadFile(path.join(__dirname, 'index.html'));
+          }
+
+          app.whenReady().then(createWindow);
+
+          app.on('window-all-closed', () => {
+            if (process.platform !== 'darwin') app.quit();
+          });
+          '@
+          Set-Content -Path windows-app/main.js -Value $mainJs
+
+          Copy-Item -Path index.html -Destination windows-app/index.html
+
       - name: Install Dependencies
         working-directory: windows-app
         run: npm install
