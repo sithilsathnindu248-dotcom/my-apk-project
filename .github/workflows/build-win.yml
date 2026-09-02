@@ -19,70 +19,18 @@ jobs:
         with:
           node-version: 20
 
-      - name: Create Structure and Configs
-        shell: powershell
-        run: |
-          New-Item -ItemType Directory -Force -Path app_src
-          Get-ChildItem -Exclude "app_src", ".git", ".github" | Move-Item -Destination app_src
-          
-          @{
-            name = "stp-dashboard"
-            version = "1.0.0"
-            productName = "STP DASHBOARD"
-            main = "main.js"
-            scripts = @{
-              build = "electron-builder --win nsis"
-            }
-            build = @{
-              appId = "com.stpdashboard.app"
-              directories = @{
-                output = "dist"
-              }
-              files = @(
-                "main.js",
-                "app_src/**/*"
-              )
-              win = @{
-                target = "nsis"
-              }
-            }
-          } | ConvertTo-Json -Depth 5 | Set-Content -Path package.json
-
-          @'
-          const { app, BrowserWindow } = require('electron');
-          const path = require('path');
-
-          function createWindow() {
-            const win = new BrowserWindow({
-              width: 1280,
-              height: 800,
-              autoHideMenuBar: true,
-              webPreferences: {
-                nodeIntegration: false,
-                contextIsolation: true
-              }
-            });
-
-            win.loadFile(path.join(__dirname, 'app_src', 'index.html'));
-          }
-
-          app.whenReady().then(createWindow);
-
-          app.on('window-all-closed', () => {
-            if (process.platform !== 'darwin') app.quit();
-          });
-          '@ | Set-Content -Path main.js
-
       - name: Install Dependencies
-        run: npm install --save-dev electron electron-builder
+        working-directory: windows-app
+        run: npm install
 
       - name: Build Windows Executable (.exe)
+        working-directory: windows-app
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx electron-builder --win nsis -c.publish=never
+        run: npm run dist
 
       - name: Upload Windows EXE Artifact
         uses: actions/upload-artifact@v4
         with:
           name: STP-DASHBOARD-Windows
-          path: dist/*.exe
+          path: windows-app/dist/*.exe
