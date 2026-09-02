@@ -1,0 +1,87 @@
+name: Build Windows EXE
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Prepare Project Structure & Electron Setup
+        shell: bash
+        run: |
+          mkdir -p src
+          find . -maxdepth 1 ! -name '.' ! -name '..' ! -name 'src' ! -name '.git' ! -name '.github' -exec mv {} src/ \;
+          
+          cat << 'EOF' > package.json
+          {
+            "name": "stp-dashboard",
+            "version": "1.0.0",
+            "productName": "STP DASHBOARD",
+            "main": "main.js",
+            "scripts": {
+              "dist": "electron-builder --win nsis"
+            },
+            "build": {
+              "appId": "com.stpdashboard.app",
+              "directories": {
+                "output": "dist"
+              },
+              "files": [
+                "main.js",
+                "src/**/*"
+              ],
+              "win": {
+                "target": "nsis"
+              }
+            }
+          }
+          EOF
+
+          cat << 'EOF' > main.js
+          const { app, BrowserWindow } = require('electron');
+          const path = require('path');
+
+          function createWindow() {
+            const win = new BrowserWindow({
+              width: 1280,
+              height: 800,
+              autoHideMenuBar: true,
+              webPreferences: {
+                nodeIntegration: false,
+                contextIsolation: true
+              }
+            });
+
+            win.loadFile(path.join(__dirname, 'src', 'index.html'));
+          }
+
+          app.whenReady().then(createWindow);
+
+          app.on('window-all-closed', () => {
+            if (process.platform !== 'darwin') app.quit();
+          });
+          EOF
+
+          npm install --save-dev electron electron-builder
+
+      - name: Build Windows Executable (.exe)
+        run: npm run dist
+
+      - name: Upload Windows EXE Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: STP-DASHBOARD-Windows
+          path: dist/*.exe
