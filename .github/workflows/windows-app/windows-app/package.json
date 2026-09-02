@@ -1,0 +1,27 @@
+{
+  "name": "stp-dashboard",
+  "version": "1.0.0",
+  "productName": "STP DASHBOARD",
+  "main": "main.js",
+  "scripts": {
+    "dist": "electron-builder --win nsis"
+  },
+  "build": {
+    "appId": "com.stpdashboard.app",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "../index.html"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "publish": null
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3"
+  }
+}
