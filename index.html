@@ -1,0 +1,4965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>MR_SMILE</title>
+
+<style>
+
+ :root{
+    --theme-bg:#080b14;
+    --theme-card:#131a2a;
+    --theme-input:#0d1422;
+    --theme-border:#29334d;
+    --theme-text:#f5f7ff;
+    --theme-muted:#8991a6;
+    --theme-accent:#5b5de6;
+    --theme-accent2:#7357ff;
+    --theme-success:#20c997;
+    --theme-danger:#ff5268;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#000;
+    color:white;
+    height:100vh;
+    overflow:hidden;
+}
+
+/* =========================
+   CLICK STARS
+========================= */
+
+.click-star{
+    position:fixed;
+    pointer-events:none;
+    z-index:9999;
+    font-size:14px;
+    color:white;
+    animation:starBurst 700ms ease-out forwards;
+}
+
+@keyframes starBurst{
+    0%{
+        opacity:1;
+        transform:translate(0,0) scale(1);
+    }
+
+    100%{
+        opacity:0;
+        transform:
+            translate(var(--x),var(--y))
+            scale(0);
+    }
+}
+
+/* =========================
+   SPLASH
+========================= */
+
+#splash{
+    position:fixed;
+    inset:0;
+    background:#000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:10;
+}
+
+.s-logo{
+    font-size:200px;
+    font-weight:80;
+    opacity:0;
+    transform:scale(.7);
+    animation:logoIn 1.8s cubic-bezier(.16,1,.3,1) forwards;
+}
+
+.powered{
+    margin-top:10px;
+    font-size:13px;
+    letter-spacing:4px;
+    color:#aaa;
+    opacity:0;
+    animation:poweredIn 1s ease 1s forwards;
+}
+
+@keyframes logoIn{
+    from{
+        opacity:0;
+        transform:scale(.7);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+@keyframes poweredIn{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================
+   SETUP
+========================= */
+
+#setup{
+    display:none;
+    height:100vh;
+    justify-content:center;
+    align-items:center;
+    padding:25px;
+}
+
+.setup-box{
+    width:100%;
+    max-width:520px;
+}
+
+.setup-box h1{
+    font-size:35px;
+    margin-bottom:8px;
+}
+
+.setup-box p{
+    color:#888;
+    margin-bottom:25px;
+}
+
+.input-group{
+    margin-bottom:18px;
+}
+
+.input-group label{
+    display:block;
+    margin-bottom:7px;
+    font-size:14px;
+    color:#bbb;
+}
+
+.input-group input,
+.input-group select{
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    border:1px solid #333;
+    background:#111;
+    color:white;
+    outline:none;
+    font-size:15px;
+}
+
+.input-group select option{
+    background:#111;
+    color:white;
+}
+
+.input-group input:focus,
+.input-group select:focus{
+    border-color:#777;
+}
+
+.continue-btn{
+    width:100%;
+    padding:15px;
+    margin-top:10px;
+    border:none;
+    border-radius:10px;
+    background:white;
+    color:black;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.continue-btn:hover{
+    background:#ddd;
+}
+
+/* =========================
+   STREAM OPTIONS
+========================= */
+
+.stream-options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.stream-options button,
+#subjectOptions button{
+    border:1px solid #29334d;
+    border-radius:12px;
+    padding:14px;
+    background:#131a2a;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.2s;
+}
+
+.stream-options button:hover,
+#subjectOptions button:hover{
+    background:#263451;
+    transform:translateY(-2px);
+}
+
+#subjectOptions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    max-height:390px;
+    overflow-y:auto;
+    padding-right:5px;
+}
+
+#subjectOptions button.selected{
+    background:#5b5de6;
+    border-color:#7476ff;
+    box-shadow:0 0 15px rgba(91,93,230,.3);
+}
+
+#subjectOptions::-webkit-scrollbar{
+    width:5px;
+}
+
+#subjectOptions::-webkit-scrollbar-thumb{
+    background:#29334d;
+    border-radius:10px;
+}
+
+.back-btn{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:1px solid #29334d;
+    border-radius:10px;
+    background:transparent;
+    color:#8991a6;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.back-btn:hover{
+    background:#1b2438;
+    color:white;
+}
+
+/* =========================
+   HELLO
+========================= */
+
+#hello{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#000;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:20;
+}
+
+.hello-small{
+    font-size:20px;
+    color:#999;
+    opacity:0;
+    animation:helloSmall 1s ease forwards;
+}
+
+.user-name{
+    margin-top:8px;
+    font-size:55px;
+    font-weight:800;
+    opacity:0;
+    transform:translateY(30px);
+    animation:nameIn 1s ease .5s forwards;
+}
+
+@keyframes helloSmall{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes nameIn{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================
+   DASHBOARD
+========================= */
+
+#dashboard{
+    display:none;
+    min-height:100vh;
+    height:100vh;
+    padding:30px;
+    background:#080b14;
+    color:#f5f7ff;
+    overflow-y:auto;
+}
+
+.dashboard-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:28px;
+}
+
+.dashboard-header h1{
+    font-size:30px;
+    margin-bottom:5px;
+}
+
+.dashboard-header p{
+    color:#8991a6;
+}
+
+.greeting{
+    background:#171d2e;
+    border:1px solid #29334d;
+    padding:12px 22px;
+    border-radius:30px;
+    font-weight:bold;
+}
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:
+        145px
+        minmax(280px,1.3fr)
+        minmax(300px,1fr)
+        minmax(300px,1.1fr);
+    gap:18px;
+    align-items:stretch;
+}
+
+.card{
+    background:#131a2a;
+    border:1px solid #222c43;
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 12px 30px rgba(0,0,0,.25);
+}
+
+.card h2{
+    font-size:19px;
+    margin-bottom:18px;
+}
+
+.timer-column{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    height:100%;
+}
+
+.timer-column>.card{
+    flex:1;
+}
+
+.week-card,
+.todo-card,
+.distribution-card,
+.timer-column{
+    height:100%;
+}
+
+/* =========================
+   WEEK
+========================= */
+
+.week-days{
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+}
+
+.day{
+    height:58px;
+    border:none;
+    border-radius:100px;
+    background:#1b2438;
+    color:#8991a6;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.day:hover{
+    transform:scale(1.04);
+    background:#26324c;
+}
+
+.day.today{
+    background:#5b5de6;
+    color:white;
+    box-shadow:0 0 20px rgba(91,93,230,.4);
+}
+
+.week-number{
+    margin-top:14px;
+    padding-top:10px;
+    border-top:1px solid rgba(255,255,255,.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    font-size:12px;
+    letter-spacing:1.5px;
+    color:#8d96aa;
+}
+
+.week-number strong{
+    font-size:16px;
+    color:white;
+    letter-spacing:1px;
+}
+
+/* =========================
+   TODO
+========================= */
+
+.todo-input{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.todo-input input,
+.todo-input select,
+.custom-inputs input{
+    background:#0d1422;
+    color:white;
+    border:1px solid #29334d;
+    border-radius:8px;
+    padding:11px;
+    outline:none;
+}
+
+.todo-input select option{
+    background:#0d1422;
+}
+
+.todo-input button,
+.custom-inputs button{
+    background:#5b5de6;
+    color:white;
+    border:none;
+    padding:11px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.task-item{
+    margin-top:10px;
+    padding:12px;
+    background:#0d1422;
+    border:1px solid #222c43;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.task-check{
+    width:25px;
+    height:25px;
+    border:2px solid #5b5de6;
+    border-radius:7px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+
+.task-check.completed{
+    background:#20c997;
+    border-color:#20c997;
+}
+
+.task-text{
+    flex:1;
+}
+
+.task-text.completed{
+    text-decoration:line-through;
+    color:#697286;
+}
+
+.delete-task{
+    background:transparent;
+    border:none;
+    color:#ff647c;
+    cursor:pointer;
+    font-size:17px;
+}
+
+/* =========================
+   TIMERS
+========================= */
+
+.timer-card{
+    text-align:center;
+}
+
+.timer-display{
+    color:#48d7ff;
+    font-size:42px;
+    font-weight:bold;
+    letter-spacing:3px;
+    margin:12px 0;
+}
+
+.custom-display{
+    color:#ffb13b;
+    font-size:38px;
+    font-weight:bold;
+    margin:12px 0;
+}
+
+.session-display{
+    color:#20c997;
+    font-size:38px;
+    font-weight:bold;
+    margin:12px 0;
+}
+
+.timer-buttons{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+}
+
+.timer-buttons button{
+    border:none;
+    border-radius:8px;
+    padding:10px 18px;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.start{
+    background:#20c997;
+}
+
+.pause{
+    background:#ff5268;
+}
+
+.reset{
+    background:#29334d;
+}
+
+.custom-inputs{
+    display:flex;
+    justify-content:center;
+    gap:7px;
+    margin-top:10px;
+}
+
+.custom-inputs input{
+    width:48px;
+    text-align:center;
+}
+
+/* =========================
+   SESSION
+========================= */
+
+.session-status{
+    color:#9aa3b8;
+    margin-bottom:10px;
+}
+
+.session-status span{
+    color:#20c997;
+    font-weight:bold;
+}
+
+.subject-popup{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:3000;
+    background:rgba(0,0,0,.75);
+    align-items:center;
+    justify-content:center;
+    backdrop-filter:blur(6px);
+}
+
+.subject-popup-box{
+    width:320px;
+    padding:25px;
+    background:#131a2a;
+    border:1px solid #29334d;
+    border-radius:18px;
+    text-align:center;
+    box-shadow:0 25px 70px rgba(0,0,0,.5);
+}
+
+.subject-popup-box h2{
+    color:white;
+    margin-bottom:20px;
+}
+
+.subject-popup-box button{
+    display:block;
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border:1px solid #29334d;
+    border-radius:9px;
+    background:#1b2438;
+    color:white;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.subject-popup-box button:hover{
+    background:#263451;
+    transform:translateY(-1px);
+}
+
+.subject-popup-box .subject-cancel{
+    margin-top:15px;
+    background:transparent;
+    color:#8991a6;
+    border-color:transparent;
+}
+
+/* =========================
+   PIE
+========================= */
+
+.distribution-card{
+    grid-column:4;
+}
+
+.chart-wrapper{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    width:100%;
+}
+
+#pieChart{
+    width:330px;
+    height:330px;
+    max-width:90%;
+    max-height:90%;
+    border-radius:50%;
+    margin:20px auto;
+    border:4px solid #0b101c;
+    flex-shrink:0;
+}
+
+.chart-legend{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px 20px;
+    margin-top:20px;
+    color:#8991a6;
+    font-size:13px;
+}
+
+.legend{
+    display:inline-block;
+    width:12px;
+    height:12px;
+    border-radius:3px;
+    margin-right:5px;
+}
+
+.legend.maths{
+    background:#48d7ff;
+}
+
+.legend.physics{
+    background:#ff6b81;
+}
+
+.legend.chemistry{
+    background:#20c997;
+}
+
+.legend.other{
+    background:#ffb13b;
+}
+
+.reset-data-btn{
+    position:relative;
+    left:0;
+    top:0;
+    margin:25px;
+    width:180px;
+    padding:11px;
+    border:1px solid #ff5268;
+    border-radius:9px;
+    background:transparent;
+    color:#ff5268;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.reset-data-btn:hover{
+    background:#ff5268;
+    color:white;
+}
+
+/* =========================
+   MARK ANALYZE
+========================= */
+
+.analyze-button{
+    width:100%;
+    margin-top:18px;
+    padding:15px;
+    border:none;
+    border-radius:13px;
+    background:linear-gradient(90deg,#7357ff,#a34cff);
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* =========================
+   GENERAL POPUP
+========================= */
+
+.fullscreen-popup{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    background:rgba(3,5,10,.94);
+    align-items:center;
+    justify-content:center;
+}
+
+.popup-box{
+    width:min(700px,90%);
+    max-height:90vh;
+    overflow-y:auto;
+    background:#131a2a;
+    border:1px solid #29334d;
+    border-radius:22px;
+    padding:35px;
+    position:relative;
+}
+
+.popup-box h1{
+    font-size:36px;
+    margin-bottom:25px;
+}
+
+.popup-stat{
+    display:flex;
+    justify-content:space-between;
+    padding:16px 0;
+    color:#8991a6;
+}
+
+.popup-stat strong{
+    color:white;
+}
+
+.popup-box hr{
+    border:none;
+    border-top:1px solid #29334d;
+    margin:15px 0;
+}
+
+.close-popup{
+    position:absolute;
+    right:20px;
+    top:20px;
+    width:40px;
+    height:40px;
+    border:none;
+    border-radius:50%;
+    background:#252f47;
+    color:white;
+    cursor:pointer;
+}
+
+/* =========================
+   FULLSCREEN TIMER
+========================= */
+
+.fullscreen-timer-box{
+    position:relative;
+    text-align:center;
+}
+
+#fullscreenTimerTitle{
+    color:#8991a6;
+    font-size:25px;
+    margin-bottom:20px;
+}
+
+#fullscreenTimerValue{
+    font-size:clamp(80px,15vw,200px);
+    font-weight:bold;
+    color:#48d7ff;
+}
+
+.fullscreen-timer-box p{
+    color:#59647a;
+}
+
+/* =========================
+   CUSTOM TIMER FINISH POPUP
+========================= */
+
+.timer-finish-popup{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:6000;
+    background:rgba(3,5,10,.88);
+    backdrop-filter:blur(7px);
+    align-items:center;
+    justify-content:center;
+}
+
+.timer-finish-box{
+    width:min(430px,90%);
+    padding:35px;
+    text-align:center;
+    background:#131a2a;
+    border:1px solid #29334d;
+    border-radius:22px;
+    box-shadow:0 25px 80px rgba(0,0,0,.6);
+    animation:finishPopupIn .25s ease;
+}
+
+@keyframes finishPopupIn{
+    from{
+        opacity:0;
+        transform:scale(.85);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+.finish-icon{
+    font-size:55px;
+    margin-bottom:12px;
+}
+
+.timer-finish-box h2{
+    font-size:27px;
+    margin-bottom:10px;
+}
+
+.timer-finish-box p{
+    color:#8991a6;
+    margin-bottom:25px;
+}
+
+.finish-close-btn{
+    border:none;
+    padding:12px 30px;
+    border-radius:10px;
+    background:#5b5de6;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* =========================
+   RESET POPUP
+========================= */
+
+.reset-popup{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:2000;
+    background:rgba(3,5,10,.88);
+    align-items:center;
+    justify-content:center;
+    backdrop-filter:blur(6px);
+}
+
+.reset-popup-box{
+    width:min(420px,90%);
+    background:#131a2a;
+    border:1px solid #29334d;
+    border-radius:20px;
+    padding:30px;
+    text-align:center;
+    box-shadow:0 25px 70px rgba(0,0,0,.5);
+}
+
+.reset-icon{
+    font-size:42px;
+    margin-bottom:12px;
+}
+
+.reset-popup-box h2{
+    color:white;
+    margin-bottom:10px;
+}
+
+.reset-popup-box p{
+    color:#8991a6;
+    line-height:1.6;
+    margin-bottom:25px;
+}
+
+.reset-popup-buttons{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+}
+
+.reset-popup-buttons button{
+    border:none;
+    padding:11px 20px;
+    border-radius:9px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.cancel-reset{
+    background:#29334d;
+    color:white;
+}
+
+.confirm-reset{
+    background:#ff5268;
+    color:white;
+}
+
+/* =========================
+   MARK ANALYZE POPUPS
+========================= */
+
+.mark-choice-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    margin-top:20px;
+}
+
+.mark-choice-btn{
+    padding:18px;
+    border:1px solid #29334d;
+    border-radius:12px;
+    background:#1b2438;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.mark-choice-btn:hover{
+    background:#263451;
+}
+
+.mark-form{
+    margin-top:10px;
+}
+
+.mark-form label{
+    display:block;
+    color:#8991a6;
+    margin:12px 0 7px;
+}
+
+.mark-form input,
+.mark-form select{
+    width:100%;
+    padding:12px;
+    border-radius:9px;
+    border:1px solid #29334d;
+    background:#0d1422;
+    color:white;
+    outline:none;
+}
+
+.mark-form input:focus,
+.mark-form select:focus{
+    border-color:#5b5de6;
+}
+
+.mark-save-btn{
+    width:100%;
+    padding:13px;
+    margin-top:20px;
+    border:none;
+    border-radius:10px;
+    background:#20c997;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.mark-cancel-btn{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:1px solid #29334d;
+    border-radius:10px;
+    background:transparent;
+    color:#8991a6;
+    cursor:pointer;
+}
+
+.mark-subject-list{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+    margin-top:15px;
+}
+
+.mark-subject-btn{
+    padding:11px;
+    border:1px solid #29334d;
+    border-radius:9px;
+    background:#1b2438;
+    color:white;
+    cursor:pointer;
+}
+
+.mark-subject-btn:hover{
+    background:#263451;
+}
+
+/* =========================
+   MARK ANALYZE CHART
+========================= */
+
+.mark-chart-wrapper{
+    margin-top:20px;
+    width:100%;
+    height:330px;
+    background:#0d1422;
+    border:1px solid #222c43;
+    border-radius:15px;
+    padding:15px;
+}
+
+#markChart{
+    width:100%;
+    height:100%;
+}
+
+/* =========================
+   SETTINGS
+========================= */
+.settings-button{
+    width:38px;height:38px;border:1px solid #29334d;border-radius:50%;
+    background:#11182a;color:white;cursor:pointer;font-size:18px;
+    display:inline-flex;align-items:center;justify-content:center;transition:.2s;
+}
+.settings-button:hover{background:#263451;transform:rotate(25deg);}
+.greeting-wrap{display:flex;align-items:center;gap:10px;}
+.settings-popup{display:none;position:fixed;inset:0;z-index:7000;background:rgba(3,5,10,.88);backdrop-filter:blur(7px);align-items:center;justify-content:center;}
+.settings-box{width:min(520px,92%);max-height:90vh;overflow:auto;background:#131a2a;border:1px solid #29334d;border-radius:22px;padding:30px;box-shadow:0 25px 80px rgba(0,0,0,.6);}
+.settings-box h2{margin-bottom:7px;}
+.settings-box>p{color:#8991a6;margin-bottom:22px;}
+.color-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:15px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.07);}
+.color-row span{color:#cbd2e1;font-weight:bold;font-size:14px;}
+.color-row input[type=color]{width:54px;height:34px;padding:2px;border:1px solid #29334d;border-radius:8px;background:#0d1422;cursor:pointer;}
+.settings-actions{display:flex;gap:10px;margin-top:22px;}
+.settings-actions button{flex:1;padding:12px;border:none;border-radius:10px;font-weight:bold;cursor:pointer;}
+.settings-save{background:#20c997;color:white;}
+.settings-reset{background:#29334d;color:white;}
+
+/* MARK ACTION CHOICE */
+.mark-action-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:22px;}
+.mark-action-btn{padding:20px;border:1px solid #29334d;border-radius:14px;background:#1b2438;color:white;cursor:pointer;font-weight:bold;font-size:15px;transition:.2s;}
+.mark-action-btn:hover{background:#263451;transform:translateY(-2px);}
+.mark-action-btn.add{border-color:#20c997;}
+.mark-action-btn.display{border-color:#7357ff;}
+.mark-empty{padding:25px;text-align:center;color:#8991a6;background:#0d1422;border:1px solid #222c43;border-radius:12px;margin-top:20px;}
+
+/* THEME OVERRIDES — defaults remain unchanged */
+#dashboard{background:var(--theme-bg);color:var(--theme-text);}
+.card,.popup-box,.subject-popup-box,.timer-finish-box,.reset-popup-box,.settings-box{background:var(--theme-card);border-color:var(--theme-border);}
+.todo-input input,.todo-input select,.custom-inputs input,.mark-form input,.mark-form select,.mark-chart-wrapper{background:var(--theme-input);border-color:var(--theme-border);}
+.greeting,.day,.mark-choice-btn,.mark-subject-btn,.mark-action-btn{border-color:var(--theme-border);}
+.greeting{background:var(--theme-card);}
+
+.analyze-button{background:linear-gradient(90deg,var(--theme-accent),#a34cff);}
+.mark-action-btn.display{border-color:var(--theme-accent2);}
+.mark-save-btn,.settings-save{background:var(--theme-success);}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1100px){
+
+    body{
+        overflow:auto;
+    }
+
+    #dashboard{
+        height:auto;
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .distribution-card{
+        grid-column:auto;
+    }
+
+}
+
+@media(max-width:700px){
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+    .stream-options,
+    #subjectOptions,
+    .mark-choice-grid{
+        grid-template-columns:1fr;
+    }
+
+    .dashboard-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+    }
+
+}
+
+
+/* =========================
+   MOBILE DASHBOARD MODE
+   Keeps the desktop layout intact.
+========================= */
+.mobile-quick-controls,.mobile-panel-backdrop{display:none;}
+
+@media (max-width:700px){
+    html,body{
+        width:100%;
+        min-width:0;
+        max-width:100%;
+        overflow-x:hidden;
+        -webkit-text-size-adjust:100%;
+        touch-action:pan-y;
+    }
+
+    body{overflow:auto;}
+
+    #dashboard{
+        width:100%;
+        min-height:100vh;
+        min-height:100svh;
+        min-height:100dvh;
+        height:auto;
+        padding:clamp(12px,4vw,20px);
+        padding-top:calc(clamp(58px,14vw,78px) + env(safe-area-inset-top));
+        padding-bottom:calc(28px + env(safe-area-inset-bottom));
+        overflow:visible;
+    }
+
+    .dashboard-header{
+        width:100%;
+        margin-bottom:16px;
+        gap:10px;
+        align-items:flex-start;
+    }
+
+    .dashboard-header>div:first-child{width:100%;}
+    .dashboard-header h1{font-size:clamp(20px,6vw,27px);line-height:1.15;}
+    .dashboard-header p{font-size:clamp(12px,3.5vw,15px);line-height:1.35;}
+
+    .greeting-wrap{
+        position:absolute;
+        top:calc(10px + env(safe-area-inset-top));
+        right:clamp(12px,4vw,20px);
+        gap:7px;
+    }
+    .greeting{
+        padding:8px 12px;
+        border-radius:18px;
+        font-size:11px;
+        white-space:nowrap;
+    }
+    .settings-button{width:34px;height:34px;font-size:16px;}
+
+    /* Only the three productivity timers remain in the main flow. */
+    .dashboard-grid{
+        display:block;
+        width:100%;
+    }
+
+    .timer-column{
+        display:grid;
+        grid-template-columns:1fr;
+        gap:12px;
+        width:100%;
+        height:auto;
+    }
+
+    .timer-column>.card{
+        width:100%;
+        min-width:0;
+        flex:none;
+    }
+
+    .timer-card,.session-card{padding:clamp(14px,4vw,20px);}
+    .timer-card h2,.session-card h2{font-size:clamp(16px,4.7vw,20px);margin-bottom:10px;}
+    .timer-display{font-size:clamp(34px,10vw,46px);margin:9px 0;}
+    .custom-display,.session-display{font-size:clamp(30px,9vw,40px);margin:9px 0;}
+
+    .timer-buttons{flex-wrap:wrap;gap:7px;}
+    .timer-buttons button{padding:10px clamp(12px,4vw,18px);font-size:12px;}
+    .custom-inputs{flex-wrap:wrap;}
+    .custom-inputs input{width:clamp(44px,13vw,55px);}
+    .custom-inputs button{padding:10px 14px;}
+
+    /* Desktop cards become slide-out mobile panels. */
+    .week-card,.todo-card,.distribution-card{
+        position:fixed;
+        z-index:6100;
+        display:none;
+        width:min(88vw,360px);
+        max-height:calc(100vh - 105px);
+        max-height:calc(100svh - 105px);
+        max-height:calc(100dvh - 105px);
+        overflow:auto;
+        top:calc(64px + env(safe-area-inset-top));
+        margin:0;
+        box-shadow:0 20px 70px rgba(0,0,0,.65);
+        animation:mobilePanelIn .22s ease both;
+    }
+
+    .week-card{left:12px;border-top-left-radius:8px;}
+    .todo-card{left:12px;top:calc(64px + env(safe-area-inset-top));margin-top:0;}
+    .distribution-card{right:12px;}
+
+    #dashboard.mobile-left-open .week-card,
+    #dashboard.mobile-left-open .todo-card{display:block;}
+
+    #dashboard.mobile-right-open .distribution-card{display:block;}
+
+    /* When the left drawer is open, stack its two cards neatly. */
+    #dashboard.mobile-left-open .week-card{top:calc(64px + env(safe-area-inset-top));}
+    #dashboard.mobile-left-open .todo-card{top:calc(64px + env(safe-area-inset-top));transform:translateY(0);}
+
+    .week-days{
+        display:grid;
+        grid-template-columns:repeat(4,1fr);
+        gap:8px;
+    }
+    .day{height:46px;font-size:12px;}
+    .week-number{margin-top:10px;}
+
+    .todo-card{
+        /* JS gives the drawer a clean single-panel view by moving it above the week card when opened. */
+    }
+    .todo-input{gap:7px;}
+    .todo-input input,.todo-input select,.todo-input button{font-size:13px;}
+
+    #pieChart{
+        width:min(72vw,290px);
+        height:min(72vw,290px);
+        margin:10px auto 15px;
+    }
+    .chart-legend{grid-template-columns:1fr 1fr;gap:8px 10px;font-size:11px;}
+
+    .analyze-button{
+        width:100%;
+        margin-top:12px;
+        min-height:48px;
+        font-size:14px;
+    }
+
+    .mobile-quick-controls{
+        display:block;
+        position:fixed;
+        inset:0;
+        z-index:6200;
+        pointer-events:none;
+    }
+    .mobile-tab{
+        pointer-events:auto;
+        position:absolute;
+        top:calc(12px + env(safe-area-inset-top));
+        width:42px;height:42px;
+        border:1px solid var(--theme-border);
+        border-radius:12px;
+        background:var(--theme-card);
+        color:var(--theme-text);
+        box-shadow:0 8px 25px rgba(0,0,0,.35);
+        font-size:20px;
+        cursor:pointer;
+        -webkit-tap-highlight-color:transparent;
+    }
+    .mobile-left-tab{left:12px;}
+    .mobile-right-tab{right:12px;}
+    .mobile-tab:active{transform:scale(.94);}
+
+    .mobile-panel-backdrop{
+        position:fixed;
+        inset:0;
+        z-index:6050;
+        background:rgba(0,0,0,.42);
+        backdrop-filter:blur(2px);
+    }
+    #dashboard.mobile-left-open .mobile-panel-backdrop,
+    #dashboard.mobile-right-open .mobile-panel-backdrop{display:block;}
+
+    /* Left quick panel: week + to-do are shown in one scrollable drawer. */
+    #dashboard.mobile-left-open .week-card{
+        display:block;
+        bottom:12px;
+        max-height:calc(100vh - 90px);
+        max-height:calc(100svh - 90px);
+        max-height:calc(100dvh - 90px);
+    }
+    #dashboard.mobile-left-open .todo-card{
+        display:block;
+        top:auto;
+        bottom:12px;
+        max-height:calc(100vh - 90px);
+        max-height:calc(100svh - 90px);
+        max-height:calc(100dvh - 90px);
+        transform:translateY(0);
+        margin-bottom:0;
+        /* Hide the duplicate week card behind the to-do drawer after a short screen;
+           both remain available through the compact Week heading. */
+    }
+
+    /* Make the week card and to-do card independently reachable by tapping their headings. */
+    #dashboard.mobile-left-open .week-card{
+        width:calc(44vw - 12px);
+        right:auto;
+        overflow:hidden;
+    }
+    #dashboard.mobile-left-open .todo-card{
+        width:calc(56vw - 12px);
+        left:calc(44vw);
+    }
+
+    .distribution-card{
+        bottom:12px;
+        max-height:calc(100vh - 90px);
+        max-height:calc(100svh - 90px);
+        max-height:calc(100dvh - 90px);
+    }
+
+    @keyframes mobilePanelIn{
+        from{opacity:0;transform:translateY(8px) scale(.98)}
+        to{opacity:1;transform:translateY(0) scale(1)}
+    }
+
+    /* Prevent accidental horizontal zoom/overflow from large popups. */
+    .popup-box,.settings-box,.subject-popup-box,.reset-popup-box,.timer-finish-box{
+        width:min(94vw,520px);
+        max-width:94vw;
+    }
+    .mark-chart-wrapper{height:clamp(250px,68vw,330px);}
+    #markChart{max-width:100%;}
+}
+
+@media (max-width:700px){
+    /* Older mobile browsers: keep the app in a real viewport even without dvh support. */
+    html,body{
+        min-height:100%;
+        width:100%;
+        overflow-x:hidden;
+    }
+    #splash,#hello{
+        width:100%;
+        height:100%;
+        min-height:100vh;
+        min-height:100svh;
+        min-height:100dvh;
+    }
+    #dashboard{
+        position:relative;
+        z-index:1;
+        isolation:isolate;
+    }
+    .mobile-quick-controls{
+        z-index:6200;
+    }
+}
+
+@media (min-width:701px){
+    .mobile-quick-controls,.mobile-panel-backdrop{display:none!important;}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     SPLASH
+========================= -->
+
+<div id="splash">
+
+    <div class="s-logo">S</div>
+
+    <div class="powered">
+        POWERED BY MR_SMILE
+    </div>
+
+</div>
+
+
+<!-- =========================
+     SETUP
+========================= -->
+
+<section id="setup">
+
+<div class="setup-box">
+
+<!-- SLIDE 1 -->
+
+<div id="setupSlide1">
+
+<h1>Welcome 👋</h1>
+
+<p>Let's get to know you.</p>
+
+<div class="input-group">
+
+<label>Your Name</label>
+
+<input
+    type="text"
+    id="name"
+    placeholder="Enter your name"
+>
+
+</div>
+
+<div class="input-group">
+
+<label>Your Age</label>
+
+<input
+    type="number"
+    id="age"
+    placeholder="Enter your age"
+>
+
+</div>
+
+<div class="input-group">
+
+<label>School / Institute</label>
+
+<input
+    type="text"
+    id="school"
+    placeholder="Enter school or institute"
+>
+
+</div>
+
+<div class="input-group">
+
+<label>What are you studying?</label>
+
+<select id="studyLevel">
+
+<option value="">
+    Select your level
+</option>
+
+<option value="OL">
+    O/L Student
+</option>
+
+<option value="AL">
+    A/L Student
+</option>
+
+</select>
+
+</div>
+
+<button
+    class="continue-btn"
+    onclick="nextFromSlide1()"
+>
+NEXT
+</button>
+
+</div>
+
+
+<!-- SLIDE 2 -->
+
+<div id="setupSlide2" style="display:none;">
+
+<h1>Choose Your Stream</h1>
+
+<p>Select your A/L stream.</p>
+
+<div class="stream-options">
+
+<button onclick="selectStream('Art')">
+Art Stream
+</button>
+
+<button onclick="selectStream('Maths')">
+Maths Stream
+</button>
+
+<button onclick="selectStream('Bio')">
+Bio Stream
+</button>
+
+<button onclick="selectStream('Technology')">
+Tech Stream
+</button>
+
+<button onclick="selectStream('Commerce')">
+Commerce Stream
+</button>
+
+</div>
+
+<button
+    class="back-btn"
+    onclick="backToSlide1()"
+>
+← BACK
+</button>
+
+</div>
+
+
+<!-- SLIDE 3 -->
+
+<div id="setupSlide3" style="display:none;">
+
+<h1 id="subjectTitle">
+Choose Your Subjects
+</h1>
+
+<p>Select 3 subjects.</p>
+
+<div id="subjectOptions"></div>
+
+<button
+    class="continue-btn"
+    onclick="finishSubjects()"
+>
+NEXT
+</button>
+
+<button
+    class="back-btn"
+    onclick="backToSlide2()"
+>
+← BACK
+</button>
+
+</div>
+
+
+<!-- O/L SUBJECT SLIDE -->
+
+<div id="olSubjectSlide" style="display:none;">
+
+<h1>Choose Your Subjects</h1>
+
+<p>
+Your 6 main subjects are already selected.
+Choose one subject from each basket.
+</p>
+
+<div
+    id="olCoreSubjects"
+    style="
+        margin-bottom:20px;
+        color:#8991a6;
+        line-height:1.8;
+    "
+></div>
+
+<div class="input-group">
+
+<label>Basket 1</label>
+
+<select id="olBasket1">
+<option value="">Select Basket 1 Subject</option>
+</select>
+
+</div>
+
+<div class="input-group">
+
+<label>Basket 2</label>
+
+<select id="olBasket2">
+<option value="">Select Basket 2 Subject</option>
+</select>
+
+</div>
+
+<div class="input-group">
+
+<label>Basket 3</label>
+
+<select id="olBasket3">
+<option value="">Select Basket 3 Subject</option>
+</select>
+
+</div>
+
+<button
+    class="continue-btn"
+    onclick="finishOLSubjects()"
+>
+NEXT
+</button>
+
+<button
+    class="back-btn"
+    onclick="backToSlide1FromOL()"
+>
+← BACK
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     HELLO
+========================= -->
+
+<section id="hello">
+
+<div class="hello-small">
+HELLO
+</div>
+
+<div
+    class="user-name"
+    id="helloName"
+></div>
+
+</section>
+
+
+<!-- =========================
+     DASHBOARD
+========================= -->
+
+<section id="dashboard">
+
+<!-- MOBILE QUICK PANELS -->
+<div class="mobile-quick-controls" aria-label="Quick panels">
+    <button class="mobile-tab mobile-left-tab" type="button" onclick="toggleMobilePanel('left')" aria-label="Open To-Do and Week">☰</button>
+    <button class="mobile-tab mobile-right-tab" type="button" onclick="toggleMobilePanel('right')" aria-label="Open Today's Distribution">◒</button>
+</div>
+<div class="mobile-panel-backdrop" id="mobilePanelBackdrop" onclick="closeMobilePanels()"></div>
+
+
+<div class="dashboard-header">
+
+<div>
+
+<h1>
+📚 Study Productivity Dashboard
+</h1>
+
+<p>
+Track your study time and stay productive.
+</p>
+
+</div>
+
+<div class="greeting-wrap">
+
+<div class="greeting">
+
+Good Day
+<span id="dashName"></span>
+
+</div>
+
+<button
+    class="settings-button"
+    type="button"
+    onclick="openSettings()"
+    title="Customize Colors"
+    aria-label="Customize Colors"
+>
+    ⚙️
+</button>
+
+</div>
+
+</div>
+
+
+<div class="dashboard-grid">
+
+
+<!-- WEEK -->
+
+<div class="card week-card">
+
+<h2>📅 Week</h2>
+
+<div class="week-days">
+
+<button class="day" data-day="1">
+<span>MO</span>
+</button>
+
+<button class="day" data-day="2">
+<span>TU</span>
+</button>
+
+<button class="day" data-day="3">
+<span>WE</span>
+</button>
+
+<button class="day" data-day="4">
+<span>TH</span>
+</button>
+
+<button class="day" data-day="5">
+<span>FR</span>
+</button>
+
+<button class="day" data-day="6">
+<span>SA</span>
+</button>
+
+<button class="day" data-day="0">
+<span>SU</span>
+</button>
+
+</div>
+
+<div class="week-number">
+
+<span>WEEK</span>
+
+<strong id="weekNumber">
+01
+</strong>
+
+</div>
+
+</div>
+
+
+<!-- TODO -->
+
+<div class="card todo-card">
+
+<h2>📝 To-Do List</h2>
+
+<div class="todo-input">
+
+<input
+    type="text"
+    id="taskInput"
+    placeholder="What is your next goal?"
+>
+
+<select id="taskSubject"></select>
+
+<button onclick="addTask()">
+Add Task
+</button>
+
+</div>
+
+<div id="taskList"></div>
+
+</div>
+
+
+<!-- TIMERS -->
+
+<div class="timer-column">
+
+
+<!-- POMODORO -->
+
+<div class="card timer-card">
+
+<h2>🍅 Pomodoro</h2>
+
+<div
+    class="timer-display"
+    id="pomodoroDisplay"
+>
+25:00
+</div>
+
+<div class="timer-buttons">
+
+<button
+    class="start"
+    onclick="startPomodoro()"
+>
+Start
+</button>
+
+<button
+    class="pause"
+    onclick="pausePomodoro()"
+>
+Pause
+</button>
+
+<button
+    class="reset"
+    onclick="resetPomodoro()"
+>
+Reset
+</button>
+
+</div>
+
+</div>
+
+
+<!-- CUSTOM -->
+
+<div class="card timer-card">
+
+<h2>⚙️ Custom Timer</h2>
+
+<div
+    class="custom-display"
+    id="customDisplay"
+>
+00:00:00
+</div>
+
+<div class="timer-buttons">
+
+<button
+    class="start"
+    onclick="startCustomTimer()"
+>
+Start
+</button>
+
+<button
+    class="pause"
+    onclick="pauseCustomTimer()"
+>
+Pause
+</button>
+
+<button
+    class="reset"
+    onclick="resetCustomTimer()"
+>
+Reset
+</button>
+
+</div>
+
+<div class="custom-inputs">
+
+<input
+    type="number"
+    id="customHours"
+    placeholder="H"
+    min="0"
+>
+
+<input
+    type="number"
+    id="customMinutes"
+    placeholder="M"
+    min="0"
+    max="59"
+>
+
+<input
+    type="number"
+    id="customSeconds"
+    placeholder="S"
+    min="0"
+    max="59"
+>
+
+<button onclick="setCustomTimer()">
+Set
+</button>
+
+</div>
+
+</div>
+
+
+<!-- SESSION -->
+
+<div class="card session-card">
+
+<h2>🚀 Session Tracker</h2>
+
+<div class="session-status">
+
+Status:
+<span id="sessionStatus">
+Idle
+</span>
+
+</div>
+
+<div
+    class="session-display"
+    id="sessionDisplay"
+>
+00:00:00
+</div>
+
+<div class="timer-buttons">
+
+<button
+    class="start"
+    onclick="openSubjectPopup()"
+>
+Start
+</button>
+
+<button
+    class="pause"
+    onclick="endSession()"
+>
+End
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PIE -->
+
+<div class="card distribution-card">
+
+<h2>📊 Today's Distribution</h2>
+
+<div class="chart-wrapper">
+
+<div id="pieChart"></div>
+
+<div
+    class="chart-legend"
+    id="chartLegend"
+></div>
+
+</div>
+
+<button
+    class="reset-data-btn"
+    onclick="openResetPopup()"
+>
+🗑️ RESET DATA
+</button>
+
+</div>
+
+</div>
+
+
+<!-- MARK ANALYZE -->
+
+<button
+    class="analyze-button"
+    onclick="openMarkAnalyze()"
+>
+📊 Mark Analyze
+</button>
+
+
+<!-- =========================
+     SETTINGS POPUP
+========================= -->
+<div id="settingsPopup" class="settings-popup">
+<div class="settings-box">
+<button class="close-popup" onclick="closeSettings()">✕</button>
+<h2>⚙️ Customize Colors</h2>
+<p>Change the colors of the dashboard. Your choices are saved automatically.</p>
+<div class="color-row"><span>Dashboard Background</span><input type="color" id="colorBg"></div>
+<div class="color-row"><span>Cards / Panels</span><input type="color" id="colorCard"></div>
+<div class="color-row"><span>Input Background</span><input type="color" id="colorInput"></div>
+<div class="color-row"><span>Borders</span><input type="color" id="colorBorder"></div>
+<div class="color-row"><span>Main Text</span><input type="color" id="colorText"></div>
+<div class="color-row"><span>Muted Text</span><input type="color" id="colorMuted"></div>
+<div class="color-row"><span>Accent</span><input type="color" id="colorAccent"></div>
+<div class="color-row"><span>Success</span><input type="color" id="colorSuccess"></div>
+<div class="settings-actions">
+<button class="settings-reset" onclick="resetTheme()">Reset Default</button>
+<button class="settings-save" onclick="saveTheme()">Save Colors</button>
+</div>
+</div>
+</div>
+
+<!-- DAY POPUP -->
+
+<div
+    id="dayPopup"
+    class="fullscreen-popup"
+>
+
+<div class="popup-box">
+
+<button
+    class="close-popup"
+    onclick="closePopup('dayPopup')"
+>
+✕
+</button>
+
+<h1 id="popupDayTitle">
+Monday
+</h1>
+
+<div class="popup-stat">
+
+<span>Study Time</span>
+
+<strong id="popupDayHours">
+0h 0m
+</strong>
+
+</div>
+
+<div class="popup-stat">
+
+<span>Sessions</span>
+
+<strong id="popupDaySessions">
+0
+</strong>
+
+</div>
+
+<hr>
+
+<h2>Weekly Summary</h2>
+
+<div class="popup-stat">
+
+<span>Total Weekly Study</span>
+
+<strong id="weeklyTotal">
+0h 0m
+</strong>
+
+</div>
+
+<div class="popup-stat">
+
+<span>Daily Average</span>
+
+<strong id="weeklyAverage">
+0h 0m
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- FULLSCREEN TIMER -->
+
+<div
+    id="timerPopup"
+    class="fullscreen-popup"
+>
+
+<div class="fullscreen-timer-box">
+
+<button
+    class="close-popup"
+    onclick="closePopup('timerPopup')"
+>
+✕
+</button>
+
+<div id="fullscreenTimerTitle">
+Pomodoro
+</div>
+
+<div id="fullscreenTimerValue">
+25:00
+</div>
+
+<p>
+Right-click again to close
+</p>
+
+</div>
+
+</div>
+
+
+</section>
+
+
+<!-- =========================
+     SUBJECT POPUP
+========================= -->
+
+<div
+    id="subjectPopup"
+    class="subject-popup"
+>
+
+<div class="subject-popup-box">
+
+<h2>
+What are you studying?
+</h2>
+
+<div id="sessionSubjects"></div>
+
+<button
+    class="subject-cancel"
+    onclick="closeSubjectPopup()"
+>
+Cancel
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     RESET POPUP
+========================= -->
+
+<div
+    id="resetPopup"
+    class="reset-popup"
+>
+
+<div class="reset-popup-box">
+
+<div class="reset-icon">
+⚠️
+</div>
+
+<h2>
+Reset Study Data?
+</h2>
+
+<p>
+This will permanently remove all your
+study time, sessions and chart data.
+</p>
+
+<div class="reset-popup-buttons">
+
+<button
+    class="cancel-reset"
+    onclick="closeResetPopup()"
+>
+Cancel
+</button>
+
+<button
+    class="confirm-reset"
+    onclick="confirmResetData()"
+>
+Reset Data
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     TIMER FINISH POPUP
+========================= -->
+
+<div
+    id="timerFinishPopup"
+    class="timer-finish-popup"
+>
+
+<div class="timer-finish-box">
+
+<div class="finish-icon">
+🎉
+</div>
+
+<h2 id="timerFinishTitle">
+Timer Completed!
+</h2>
+
+<p id="timerFinishMessage">
+Your timer has finished.
+</p>
+
+<button
+    class="finish-close-btn"
+    onclick="closeTimerFinishPopup()"
+>
+OK
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     MARK ANALYZE POPUP
+========================= -->
+
+<div
+    id="markPopup"
+    class="fullscreen-popup"
+>
+
+<div class="popup-box">
+
+<button
+    class="close-popup"
+    onclick="closePopup('markPopup')"
+>
+✕
+</button>
+
+<h1>
+📊 Mark Analyze
+</h1>
+
+<p style="color:#8991a6;">
+Choose the type of paper.
+</p>
+
+<div class="mark-choice-grid">
+
+<button
+    class="mark-choice-btn"
+    onclick="chooseMarkType('Past Paper')"
+>
+📚 Past Paper
+</button>
+
+<button
+    class="mark-choice-btn"
+    onclick="chooseMarkType('Class Paper')"
+>
+📝 Class Paper
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     MARK SUBJECT POPUP
+========================= -->
+
+<div
+    id="markSubjectPopup"
+    class="fullscreen-popup"
+>
+
+<div class="popup-box">
+
+<button
+    class="close-popup"
+    onclick="closePopup('markSubjectPopup')"
+>
+✕
+</button>
+
+<h1>
+Choose Subject
+</h1>
+
+<p style="color:#8991a6;">
+Select the subject you want to analyze.
+</p>
+
+<div
+    id="markSubjectList"
+    class="mark-subject-list"
+></div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     MARK ACTION POPUP
+========================= -->
+<div id="markActionPopup" class="fullscreen-popup">
+<div class="popup-box">
+<button class="close-popup" onclick="closePopup('markActionPopup')">✕</button>
+<h1>📊 Mark Analyze</h1>
+<p style="color:#8991a6;">Choose what you want to do with <span id="markActionSubject">this subject</span>.</p>
+<div class="mark-action-grid">
+<button class="mark-action-btn add" onclick="openAddMarks()">➕ Add Marks</button>
+<button class="mark-action-btn display" onclick="openDisplayAnalyze()">📈 Display Analyze</button>
+</div>
+</div>
+</div>
+
+<!-- =========================
+     MARK FORM POPUP
+========================= -->
+
+<div
+    id="markFormPopup"
+    class="fullscreen-popup"
+>
+
+<div class="popup-box">
+
+<button
+    class="close-popup"
+    onclick="closePopup('markFormPopup')"
+>
+✕
+</button>
+
+<h1>
+Enter Marks
+</h1>
+
+<div class="mark-form">
+
+<label>
+Paper Name
+</label>
+
+<input
+    type="text"
+    id="paperName"
+    placeholder="Enter paper name"
+>
+
+<label>
+1st Part Marks
+</label>
+
+<input
+    type="number"
+    id="part1Marks"
+    placeholder="Enter 1st part marks"
+    min="0"
+>
+
+<label>
+2nd Part Marks
+</label>
+
+<input
+    type="number"
+    id="part2Marks"
+    placeholder="Enter 2nd part marks"
+    min="0"
+>
+
+<button
+    class="mark-save-btn"
+    onclick="saveMark()"
+>
+💾 Save Marks
+</button>
+
+<button
+    class="mark-cancel-btn"
+    onclick="closePopup('markFormPopup')"
+>
+Cancel
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     MARK ANALYSIS VIEW
+========================= -->
+
+<div
+    id="markAnalysisPopup"
+    class="fullscreen-popup"
+>
+
+<div class="popup-box">
+
+<button
+    class="close-popup"
+    onclick="closePopup('markAnalysisPopup')"
+>
+✕
+</button>
+
+<h1 id="analysisTitle">
+Mark Analysis
+</h1>
+
+<div
+    class="mark-chart-wrapper"
+>
+<canvas id="markChart"></canvas>
+</div>
+
+<div
+    id="markDetails"
+    style="
+        margin-top:20px;
+        color:#8991a6;
+        line-height:1.8;
+    "
+></div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   USER DATA
+===================================================== */
+
+let tasks =
+    JSON.parse(localStorage.getItem("studyTasks")) || [];
+
+let studyData =
+    JSON.parse(localStorage.getItem("studyData")) || {};
+
+let selectedStream = "";
+let selectedSubjects = [];
+
+let userSubjects =
+    JSON.parse(localStorage.getItem("userSubjects")) || [];
+
+let currentSubject = null;
+
+let markType = "";
+let markSubject = "";
+
+let markData =
+    JSON.parse(localStorage.getItem("markData")) || {};
+
+
+/* =====================================================
+   PAGE LOAD
+===================================================== */
+
+let mrSmileStarted=false;
+let helloTimer=null;
+let startupTimer=null;
+
+function revealDashboard(){
+    mrSmileStarted=true;
+
+    if(helloTimer){
+        clearTimeout(helloTimer);
+        helloTimer=null;
+    }
+
+    const splash=document.getElementById("splash");
+    const hello=document.getElementById("hello");
+    const setup=document.getElementById("setup");
+    const dashboard=document.getElementById("dashboard");
+
+    // Hard-reset every transition layer before showing the dashboard.
+    [splash,hello].forEach(el=>{
+        if(!el)return;
+        el.style.display="none";
+        el.style.visibility="hidden";
+        el.style.opacity="0";
+        el.style.pointerEvents="none";
+    });
+    if(setup){
+        setup.style.display="none";
+        setup.style.visibility="hidden";
+        setup.style.pointerEvents="none";
+    }
+
+    if(dashboard){
+        dashboard.classList.remove("mobile-left-open","mobile-right-open");
+        dashboard.style.display="block";
+        dashboard.style.visibility="visible";
+        dashboard.style.opacity="1";
+        dashboard.style.pointerEvents="auto";
+        dashboard.style.position="relative";
+        dashboard.style.zIndex="1";
+    }
+
+    // Give the browser one paint cycle before initializing charts/cards.
+    const initDashboard=()=>{
+        try{ loadUserSubjects(); }catch(error){ console.error("subjects:",error); }
+        try{ renderTasks(); }catch(error){ console.error("tasks:",error); }
+        try{ updatePieChart(); }catch(error){ console.error("pie:",error); }
+        try{ updateWeekNumber(); }catch(error){ console.error("week:",error); }
+    };
+    if(window.requestAnimationFrame) requestAnimationFrame(initDashboard);
+    else setTimeout(initDashboard,0);
+}
+
+function startApp(){
+    try{
+        if(startupTimer){ clearTimeout(startupTimer); startupTimer=null; }
+        const savedUser=localStorage.getItem("userName");
+        const splash=document.getElementById("splash");
+        const hello=document.getElementById("hello");
+        const setup=document.getElementById("setup");
+        const dashboard=document.getElementById("dashboard");
+        if(splash) splash.style.display="none";
+        if(savedUser){
+            showHello(savedUser);
+        }else{
+            if(hello) hello.style.display="none";
+            if(dashboard) dashboard.style.display="none";
+            if(setup) setup.style.display="flex";
+        }
+    }catch(error){
+        console.error("MR_SMILE startup error:",error);
+        revealDashboard();
+    }
+}
+
+function scheduleStartup(){
+    if(startupTimer) clearTimeout(startupTimer);
+    startupTimer=setTimeout(startApp,3000);
+}
+
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",scheduleStartup,{once:true});
+else scheduleStartup();
+
+// Absolute fallback against a stuck black transition.
+setTimeout(()=>{
+    const savedUser=localStorage.getItem("userName");
+    const dashboard=document.getElementById("dashboard");
+    if(savedUser && dashboard && getComputedStyle(dashboard).display==="none") revealDashboard();
+},8000);
+
+/* =====================================================
+   HELLO
+===================================================== */
+function showHello(name){
+    const hello=document.getElementById("hello");
+    const helloName=document.getElementById("helloName");
+    const dashboard=document.getElementById("dashboard");
+    const splash=document.getElementById("splash");
+    const setup=document.getElementById("setup");
+
+    if(helloTimer) clearTimeout(helloTimer);
+    if(!hello || !dashboard){ revealDashboard(); return; }
+
+    if(splash){
+        splash.style.display="none";
+        splash.style.visibility="hidden";
+        splash.style.pointerEvents="none";
+    }
+    if(setup){
+        setup.style.display="none";
+        setup.style.visibility="hidden";
+        setup.style.pointerEvents="none";
+    }
+
+    dashboard.style.display="none";
+    dashboard.style.visibility="hidden";
+    dashboard.style.pointerEvents="none";
+
+    hello.style.display="flex";
+    hello.style.visibility="visible";
+    hello.style.opacity="1";
+    hello.style.pointerEvents="auto";
+    if(helloName) helloName.textContent=name || "";
+
+    let finished=false;
+    const finish=()=>{
+        if(finished)return;
+        finished=true;
+        hello.removeEventListener("animationend",finish);
+        revealDashboard();
+    };
+
+    // animationend is more reliable than relying only on a timer on some mobile browsers.
+    hello.addEventListener("animationend",finish,{once:true});
+    helloTimer=setTimeout(finish,3200);
+}
+
+
+/* =====================================================
+   FIRST SLIDE
+===================================================== */
+
+function nextFromSlide1(){
+
+    const name =
+        document.getElementById("name").value.trim();
+
+    const age =
+        document.getElementById("age").value.trim();
+
+    const school =
+        document.getElementById("school").value.trim();
+
+    const level =
+        document.getElementById("studyLevel").value;
+
+    if(!name || !age || !school || !level){
+
+        alert("Please fill in all details.");
+
+        return;
+
+    }
+
+    localStorage.setItem("userName",name);
+    localStorage.setItem("userAge",age);
+    localStorage.setItem("userSchool",school);
+    localStorage.setItem("studyLevel",level);
+
+    if(level==="AL"){
+
+        document.getElementById("setupSlide1").style.display="none";
+
+        document.getElementById("setupSlide2").style.display="block";
+
+    }else{
+
+        openOLSubjects();
+
+    }
+
+}
+
+
+/* =====================================================
+   O/L SUBJECT GROUPS
+===================================================== */
+
+/*
+   CORE SUBJECTS
+
+   1. Religion
+   2. First Language
+   3. English Language
+   4. Mathematics
+   5. Science
+   6. History
+
+   Basket 1:
+   Geography
+   Citizenship Education
+   Entrepreneurship Education
+   Classical / Modern Languages
+   Sinhala / Tamil as Second Language
+
+   Basket 2:
+   Music
+   Art
+   Dancing
+   Drama and Theatre
+   Literature
+
+   Basket 3:
+   Information Technology
+   Agriculture and Food Technology
+   Fisheries and Food Technology
+   Design and Technology
+   Arts and Crafts
+   Home Economics
+   Electronic Writing and Shorthand
+   Health and Physical Education
+   Communication and Media Studies
+*/
+
+
+const olCoreSubjects = [
+
+    "Religion",
+    "First Language",
+    "English Language",
+    "Mathematics",
+    "Science",
+    "History"
+
+];
+
+const olBasket1 = [
+
+    "Geography",
+    "Citizenship Education",
+    "Entrepreneurship Education",
+    "Pali",
+    "Sanskrit",
+    "French",
+    "German",
+    "Hindi",
+    "Japanese",
+    "Arabic",
+    "Sinhala as a Second Language",
+    "Tamil as a Second Language"
+
+];
+
+const olBasket2 = [
+
+    "Music - Eastern",
+    "Music - Western",
+    "Music - Karnatic",
+    "Art",
+    "Dancing - Local",
+    "Dancing - Indian",
+    "Drama and Theatre - Sinhala",
+    "Drama and Theatre - Tamil",
+    "Drama and Theatre - English",
+    "Literature - Sinhala",
+    "Literature - Tamil",
+    "Literature - English",
+    "Literature - Arabic"
+
+];
+
+const olBasket3 = [
+
+    "Information Technology",
+    "Agriculture and Food Technology",
+    "Fisheries and Food Technology",
+    "Design and Technology",
+    "Arts and Crafts",
+    "Home Economics",
+    "Electronic Writing and Shorthand",
+    "Health and Physical Education",
+    "Communication and Media Studies"
+
+];
+
+
+/* =====================================================
+   O/L SETUP
+===================================================== */
+
+function openOLSubjects(){
+
+    document.getElementById("setupSlide1").style.display="none";
+
+    document.getElementById("olSubjectSlide").style.display="block";
+
+    document.getElementById("olCoreSubjects").innerHTML =
+        "<strong>Selected Main Subjects:</strong><br>" +
+        olCoreSubjects.join(" • ");
+
+    fillOLSelect(
+        "olBasket1",
+        olBasket1
+    );
+
+    fillOLSelect(
+        "olBasket2",
+        olBasket2
+    );
+
+    fillOLSelect(
+        "olBasket3",
+        olBasket3
+    );
+
+}
+
+
+function fillOLSelect(id,subjects){
+
+    const select =
+        document.getElementById(id);
+
+    select.innerHTML =
+        `<option value="">Select Subject</option>`;
+
+    subjects.forEach(subject=>{
+
+        const option =
+            document.createElement("option");
+
+        option.value=subject;
+
+        option.textContent=subject;
+
+        select.appendChild(option);
+
+    });
+
+}
+
+
+function finishOLSubjects(){
+
+    const b1 =
+        document.getElementById("olBasket1").value;
+
+    const b2 =
+        document.getElementById("olBasket2").value;
+
+    const b3 =
+        document.getElementById("olBasket3").value;
+
+    if(!b1 || !b2 || !b3){
+
+        alert(
+            "Please select one subject from each basket."
+        );
+
+        return;
+
+    }
+
+    userSubjects=[
+        ...olCoreSubjects,
+        b1,
+        b2,
+        b3
+    ];
+
+    localStorage.setItem(
+        "userSubjects",
+        JSON.stringify(userSubjects)
+    );
+
+    document.getElementById("olSubjectSlide").style.display="none";
+
+    showHello(
+        localStorage.getItem("userName")
+    );
+
+}
+
+
+function backToSlide1FromOL(){
+
+    document.getElementById("olSubjectSlide").style.display="none";
+
+    document.getElementById("setupSlide1").style.display="block";
+
+}
+
+
+/* =====================================================
+   A/L STREAM
+===================================================== */
+
+function selectStream(stream){
+
+    selectedStream=stream;
+
+    selectedSubjects=[];
+
+    document.getElementById("setupSlide2").style.display="none";
+
+    document.getElementById("setupSlide3").style.display="block";
+
+    showSubjects(stream);
+
+}
+
+
+function showSubjects(stream){
+
+    const box =
+        document.getElementById("subjectOptions");
+
+    box.innerHTML="";
+
+    let subjects=[];
+
+    if(stream==="Art"){
+
+        subjects=[
+            "Economics",
+            "Political Science",
+            "Geography",
+            "Logic and Scientific Method",
+            "History",
+            "Sociology",
+            "Mass Communication",
+            "English Literature",
+            "Sinhala Literature",
+            "Tamil Literature",
+            "Languages",
+            "Buddhist Civilization / Buddhism",
+            "Christian Culture / Christianity",
+            "Islam / Islamic Civilization",
+            "Hindu Civilization / Hinduism",
+            "Dancing",
+            "Music",
+            "Drama and Theatre",
+            "Art / Visual Arts"
+        ];
+
+    }
+
+    else if(stream==="Maths"){
+
+        subjects=[
+            "Combined Mathematics",
+            "Physics",
+            "Chemistry",
+            "ICT"
+        ];
+
+    }
+
+    else if(stream==="Bio"){
+
+        subjects=[
+            "Biology",
+            "Physics",
+            "Chemistry",
+            "Agricultural Science",
+            "ICT"
+        ];
+
+    }
+
+    else if(stream==="Technology"){
+
+        subjects=[
+            "Science for Technology (SFT)",
+            "Engineering Technology (ET)",
+            "Bio-System Technology (BST)",
+            "Information & Communication Technology (ICT)",
+            "Economics",
+            "Geography",
+            "Home Economics",
+            "English",
+            "Communication & Media Studies",
+            "Accountancy",
+            "Agricultural Science",
+            "Arts / Fine Arts"
+        ];
+
+    }
+
+    else if(stream==="Commerce"){
+
+        subjects=[
+            "Accounting",
+            "Business Studies",
+            "Economics",
+            "Business Statistics",
+            "ICT"
+        ];
+
+    }
+
+
+    subjects.forEach(subject=>{
+
+        const button =
+            document.createElement("button");
+
+        button.textContent=subject;
+
+        button.onclick=()=>{
+
+            toggleSubject(
+                button,
+                subject
+            );
+
+        };
+
+        box.appendChild(button);
+
+    });
+
+}
+
+
+function toggleSubject(button,subject){
+
+    if(selectedSubjects.includes(subject)){
+
+        selectedSubjects =
+            selectedSubjects.filter(
+                item=>item!==subject
+            );
+
+        button.classList.remove("selected");
+
+        return;
+
+    }
+
+    if(selectedSubjects.length>=3){
+
+        return;
+
+    }
+
+    selectedSubjects.push(subject);
+
+    button.classList.add("selected");
+
+}
+
+
+function finishSubjects(){
+
+    if(selectedSubjects.length!==3){
+
+        alert(
+            "Please select exactly 3 subjects."
+        );
+
+        return;
+
+    }
+
+    userSubjects=[
+        ...selectedSubjects
+    ];
+
+    localStorage.setItem(
+        "userSubjects",
+        JSON.stringify(userSubjects)
+    );
+
+    document.getElementById("setupSlide3").style.display="none";
+
+    showHello(
+        localStorage.getItem("userName")
+    );
+
+}
+
+
+function backToSlide1(){
+
+    document.getElementById("setupSlide2").style.display="none";
+
+    document.getElementById("setupSlide1").style.display="block";
+
+}
+
+
+function backToSlide2(){
+
+    document.getElementById("setupSlide3").style.display="none";
+
+    document.getElementById("setupSlide2").style.display="block";
+
+}
+
+
+/* =====================================================
+   USER SUBJECTS
+===================================================== */
+
+function loadUserSubjects(){
+
+    userSubjects =
+        JSON.parse(
+            localStorage.getItem("userSubjects")
+        ) || [];
+
+    if(!userSubjects.length){
+
+        return;
+
+    }
+
+    const todoSelect =
+        document.getElementById("taskSubject");
+
+    todoSelect.innerHTML="";
+
+    userSubjects.forEach(subject=>{
+
+        const option =
+            document.createElement("option");
+
+        option.value=subject;
+
+        option.textContent=subject;
+
+        todoSelect.appendChild(option);
+
+    });
+
+
+    const sessionBox =
+        document.getElementById("sessionSubjects");
+
+    sessionBox.innerHTML="";
+
+    userSubjects.forEach(subject=>{
+
+        const button =
+            document.createElement("button");
+
+        button.textContent=subject;
+
+        button.onclick=()=>{
+
+            startWithSubject(subject);
+
+        };
+
+        sessionBox.appendChild(button);
+
+    });
+
+
+    renderChartLegend();
+
+}
+
+
+/* =====================================================
+   PIE LEGEND
+===================================================== */
+
+function renderChartLegend(){
+
+    const legend =
+        document.getElementById("chartLegend");
+
+    legend.innerHTML="";
+
+    userSubjects.forEach((subject,index)=>{
+
+        const colors=[
+            "#48d7ff",
+            "#ff6b81",
+            "#20c997",
+            "#ffb13b",
+            "#7357ff",
+            "#a34cff",
+            "#f59e0b",
+            "#22d3ee",
+            "#fb7185"
+        ];
+
+        const div =
+            document.createElement("div");
+
+        div.innerHTML=`
+
+            <span
+                class="legend"
+                style="
+                    background:${colors[index % colors.length]};
+                "
+            ></span>
+
+            ${subject}
+
+        `;
+
+        legend.appendChild(div);
+
+    });
+
+}
+
+
+/* =====================================================
+   WEEK
+===================================================== */
+
+const dayNames=[
+
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+
+];
+
+
+function setupCurrentDay(){
+
+    const today =
+        new Date().getDay();
+
+    document.querySelectorAll(".day")
+        .forEach(day=>{
+
+            day.classList.remove("today");
+
+            if(
+                Number(day.dataset.day)===today
+            ){
+
+                day.classList.add("today");
+
+            }
+
+        });
+
+}
+
+
+function updateWeekNumber(){
+
+    const date =
+        new Date();
+
+    const firstDay =
+        new Date(
+            date.getFullYear(),
+            0,
+            1
+        );
+
+    const days =
+        Math.floor(
+            (date-firstDay)/86400000
+        );
+
+    const week =
+        Math.ceil(
+            (days+firstDay.getDay()+1)/7
+        );
+
+    document.getElementById("weekNumber")
+        .textContent =
+        String(week).padStart(2,"0");
+
+}
+
+
+setupCurrentDay();
+
+updateWeekNumber();
+
+
+document.querySelectorAll(".day")
+.forEach(day=>{
+
+    day.addEventListener(
+        "contextmenu",
+        function(e){
+
+            e.preventDefault();
+
+            showDayPopup(
+                Number(this.dataset.day)
+            );
+
+        }
+    );
+
+});
+
+
+function showDayPopup(day){
+
+    const total =
+        studyData[day]?.total || 0;
+
+    const sessions =
+        studyData[day]?.sessions || 0;
+
+    let weeklyTotal=0;
+
+    for(let i=0;i<7;i++){
+
+        weeklyTotal +=
+            studyData[i]?.total || 0;
+
+    }
+
+    const average =
+        weeklyTotal/7;
+
+    document.getElementById("popupDayTitle")
+        .textContent=dayNames[day];
+
+    document.getElementById("popupDayHours")
+        .textContent=formatHours(total);
+
+    document.getElementById("popupDaySessions")
+        .textContent=sessions;
+
+    document.getElementById("weeklyTotal")
+        .textContent=formatHours(weeklyTotal);
+
+    document.getElementById("weeklyAverage")
+        .textContent=formatHours(average);
+
+    document.getElementById("dayPopup")
+        .style.display="flex";
+
+}
+
+
+function formatHours(seconds){
+
+    const hours =
+        Math.floor(seconds/3600);
+
+    const minutes =
+        Math.floor(
+            (seconds%3600)/60
+        );
+
+    return `${hours}h ${minutes}m`;
+
+}
+
+
+/* =====================================================
+   TODO
+===================================================== */
+
+function saveTasks(){
+
+    localStorage.setItem(
+        "studyTasks",
+        JSON.stringify(tasks)
+    );
+
+}
+
+
+function renderTasks(){
+
+    const list =
+        document.getElementById("taskList");
+
+    list.innerHTML="";
+
+    tasks.forEach((task,index)=>{
+
+        const item =
+            document.createElement("div");
+
+        item.className="task-item";
+
+        item.innerHTML=`
+
+            <div
+                class="task-check ${
+                    task.completed
+                    ? "completed"
+                    : ""
+                }"
+                onclick="completeTask(${index})"
+            >
+                ${
+                    task.completed
+                    ? "✓"
+                    : ""
+                }
+            </div>
+
+            <div
+                class="task-text ${
+                    task.completed
+                    ? "completed"
+                    : ""
+                }"
+            >
+
+                ${task.text}
+
+                <small
+                    style="
+                        display:block;
+                        color:#697286
+                    "
+                >
+                    ${task.subject}
+                </small>
+
+            </div>
+
+            <button
+                class="delete-task"
+                onclick="deleteTask(${index})"
+            >
+                ✕
+            </button>
+
+        `;
+
+        list.appendChild(item);
+
+    });
+
+}
+
+
+function addTask(){
+
+    const input =
+        document.getElementById("taskInput");
+
+    const subject =
+        document.getElementById("taskSubject");
+
+    const text =
+        input.value.trim();
+
+    if(!text)return;
+
+    tasks.push({
+
+        text:text,
+        subject:subject.value,
+        completed:false
+
+    });
+
+    saveTasks();
+
+    renderTasks();
+
+    input.value="";
+
+}
+
+
+function completeTask(index){
+
+    tasks[index].completed =
+        !tasks[index].completed;
+
+    saveTasks();
+
+    renderTasks();
+
+}
+
+
+function deleteTask(index){
+
+    tasks.splice(index,1);
+
+    saveTasks();
+
+    renderTasks();
+
+}
+
+
+document
+.getElementById("taskList")
+.addEventListener(
+    "contextmenu",
+    function(e){
+
+        e.preventDefault();
+
+    }
+);
+
+renderTasks();
+
+
+/* =====================================================
+   POMODORO
+===================================================== */
+
+let pomodoroSeconds=25*60;
+let pomodoroInterval=null;
+
+
+function updatePomodoro(){
+
+    const minutes =
+        Math.floor(
+            pomodoroSeconds/60
+        );
+
+    const seconds =
+        pomodoroSeconds%60;
+
+    const value =
+        `${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
+
+    document.getElementById("pomodoroDisplay")
+        .textContent=value;
+
+    document.getElementById("fullscreenTimerValue")
+        .textContent=value;
+
+}
+
+
+function startPomodoro(){
+
+    if(pomodoroInterval)return;
+
+    pomodoroInterval=setInterval(()=>{
+
+        if(pomodoroSeconds>0){
+
+            pomodoroSeconds--;
+
+            updatePomodoro();
+
+        }else{
+
+            pausePomodoro();
+
+            playTimerSound();
+
+            showTimerFinishPopup(
+                "Pomodoro Completed! 🎉",
+                "Great work! Your Pomodoro session is finished."
+            );
+
+        }
+
+    },1000);
+
+}
+
+
+function pausePomodoro(){
+
+    clearInterval(pomodoroInterval);
+
+    pomodoroInterval=null;
+
+}
+
+
+function resetPomodoro(){
+
+    pausePomodoro();
+
+    pomodoroSeconds=25*60;
+
+    updatePomodoro();
+
+}
+
+
+document
+.querySelector(".timer-card")
+.addEventListener(
+    "contextmenu",
+    function(e){
+
+        e.preventDefault();
+
+        document.getElementById(
+            "fullscreenTimerTitle"
+        ).textContent="Pomodoro";
+
+        document.getElementById(
+            "timerPopup"
+        ).style.display="flex";
+
+        updatePomodoro();
+
+    }
+);
+
+
+/* =====================================================
+   CUSTOM TIMER
+===================================================== */
+
+let customSeconds=0;
+let customInterval=null;
+
+
+function updateCustomDisplay(){
+
+    const h =
+        Math.floor(
+            customSeconds/3600
+        );
+
+    const m =
+        Math.floor(
+            (customSeconds%3600)/60
+        );
+
+    const s =
+        customSeconds%60;
+
+    const value =
+        `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+
+    document.getElementById("customDisplay")
+        .textContent=value;
+
+    document.getElementById("fullscreenTimerValue")
+        .textContent=value;
+
+}
+
+
+function setCustomTimer(){
+
+    const h =
+        Number(
+            document.getElementById("customHours").value
+        ) || 0;
+
+    const m =
+        Number(
+            document.getElementById("customMinutes").value
+        ) || 0;
+
+    const s =
+        Number(
+            document.getElementById("customSeconds").value
+        ) || 0;
+
+    customSeconds =
+        h*3600+m*60+s;
+
+    updateCustomDisplay();
+
+}
+
+
+function startCustomTimer(){
+
+    if(customInterval)return;
+
+    if(customSeconds<=0)return;
+
+    customInterval=setInterval(()=>{
+
+        if(customSeconds>0){
+
+            customSeconds--;
+
+            updateCustomDisplay();
+
+        }else{
+
+            pauseCustomTimer();
+
+            playTimerSound();
+
+            showTimerFinishPopup(
+                "Custom Timer Completed! 🎉",
+                "Your custom timer has finished."
+            );
+
+        }
+
+    },1000);
+
+}
+
+
+function pauseCustomTimer(){
+
+    clearInterval(customInterval);
+
+    customInterval=null;
+
+}
+
+
+function resetCustomTimer(){
+
+    pauseCustomTimer();
+
+    customSeconds=0;
+
+    updateCustomDisplay();
+
+}
+
+
+const customTimerCard =
+    document.querySelectorAll(".timer-card")[1];
+
+customTimerCard.addEventListener(
+    "contextmenu",
+    function(e){
+
+        e.preventDefault();
+
+        document.getElementById(
+            "fullscreenTimerTitle"
+        ).textContent="Custom Timer";
+
+        document.getElementById(
+            "timerPopup"
+        ).style.display="flex";
+
+        updateCustomDisplay();
+
+    }
+);
+
+
+/* =====================================================
+   CODE GENERATED TIMER SOUND
+===================================================== */
+
+function playTimerSound(){
+
+    try{
+
+        const AudioContext =
+            window.AudioContext ||
+            window.webkitAudioContext;
+
+        const audio =
+            new AudioContext();
+
+        const now =
+            audio.currentTime;
+
+        const oscillator =
+            audio.createOscillator();
+
+        const gain =
+            audio.createGain();
+
+        oscillator.type="sine";
+
+        oscillator.frequency.setValueAtTime(
+            660,
+            now
+        );
+
+        oscillator.frequency.setValueAtTime(
+            880,
+            now+.18
+        );
+
+        oscillator.frequency.setValueAtTime(
+            660,
+            now+.36
+        );
+
+        gain.gain.setValueAtTime(
+            .001,
+            now
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            .25,
+            now+.03
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            now+.55
+        );
+
+        oscillator.connect(gain);
+
+        gain.connect(audio.destination);
+
+        oscillator.start(now);
+
+        oscillator.stop(now+.6);
+
+    }catch(e){
+
+        console.log("Audio unavailable.");
+
+    }
+
+}
+
+
+/* =====================================================
+   TIMER FINISH POPUP
+===================================================== */
+
+function showTimerFinishPopup(title,message){
+
+    document.getElementById(
+        "timerFinishTitle"
+    ).textContent=title;
+
+    document.getElementById(
+        "timerFinishMessage"
+    ).textContent=message;
+
+    document.getElementById(
+        "timerFinishPopup"
+    ).style.display="flex";
+
+}
+
+
+function closeTimerFinishPopup(){
+
+    document.getElementById(
+        "timerFinishPopup"
+    ).style.display="none";
+
+}
+
+
+/* =====================================================
+   SESSION TRACKER
+===================================================== */
+
+let sessionInterval=null;
+let sessionSeconds=0;
+let sessionStart=null;
+
+
+function updateSessionDisplay(){
+
+    const h =
+        Math.floor(
+            sessionSeconds/3600
+        );
+
+    const m =
+        Math.floor(
+            (sessionSeconds%3600)/60
+        );
+
+    const s =
+        sessionSeconds%60;
+
+    document.getElementById(
+        "sessionDisplay"
+    ).textContent=
+        `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+
+}
+
+
+function openSubjectPopup(){
+
+    loadUserSubjects();
+
+    document.getElementById(
+        "subjectPopup"
+    ).style.display="flex";
+
+}
+
+
+function closeSubjectPopup(){
+
+    document.getElementById(
+        "subjectPopup"
+    ).style.display="none";
+
+}
+
+
+function startWithSubject(subject){
+
+    closeSubjectPopup();
+
+    currentSubject=subject;
+
+    startSession();
+
+}
+
+
+function startSession(){
+
+    if(sessionInterval)return;
+
+    sessionStart=Date.now();
+
+    document.getElementById(
+        "sessionStatus"
+    ).textContent="Studying";
+
+    sessionInterval=setInterval(()=>{
+
+        sessionSeconds++;
+
+        updateSessionDisplay();
+
+    },1000);
+
+}
+
+
+function endSession(){
+
+    if(!sessionInterval)return;
+
+    clearInterval(sessionInterval);
+
+    sessionInterval=null;
+
+    const today =
+        new Date().getDay();
+
+    if(!studyData[today]){
+
+        studyData[today]={
+            total:0,
+            sessions:0,
+            subjects:{}
+        };
+
+    }
+
+    if(!studyData[today].subjects){
+
+        studyData[today].subjects={};
+
+    }
+
+    studyData[today].total +=
+        sessionSeconds;
+
+    studyData[today].sessions++;
+
+    studyData[today].subjects[currentSubject] =
+        (studyData[today].subjects[currentSubject] || 0)
+        + sessionSeconds;
+
+    localStorage.setItem(
+        "studyData",
+        JSON.stringify(studyData)
+    );
+
+    sessionSeconds=0;
+
+    updateSessionDisplay();
+
+    document.getElementById(
+        "sessionStatus"
+    ).textContent="Idle";
+
+    updatePieChart();
+
+}
+
+
+/* =====================================================
+   SESSION RIGHT CLICK
+===================================================== */
+
+document
+.querySelector(".session-card")
+.addEventListener(
+    "contextmenu",
+    function(e){
+
+        e.preventDefault();
+
+        document.getElementById(
+            "fullscreenTimerTitle"
+        ).textContent="Study Session";
+
+        document.getElementById(
+            "timerPopup"
+        ).style.display="flex";
+
+        document.getElementById(
+            "fullscreenTimerValue"
+        ).textContent=
+            document.getElementById(
+                "sessionDisplay"
+            ).textContent;
+
+    }
+);
+
+
+/* =====================================================
+   PIE CHART
+===================================================== */
+
+function updatePieChart(){
+
+    const today =
+        new Date().getDay();
+
+    const subjects =
+        studyData[today]?.subjects || {};
+
+    let total=0;
+
+    userSubjects.forEach(subject=>{
+
+        total +=
+            subjects[subject] || 0;
+
+    });
+
+    const pie =
+        document.getElementById("pieChart");
+
+    if(total===0){
+
+        pie.style.background="#202a40";
+
+        return;
+
+    }
+
+    const colors=[
+
+        "#48d7ff",
+        "#ff6b81",
+        "#20c997",
+        "#ffb13b",
+        "#7357ff",
+        "#a34cff",
+        "#f59e0b",
+        "#22d3ee",
+        "#fb7185"
+
+    ];
+
+    let currentDeg=0;
+
+    let gradients=[];
+
+    userSubjects.forEach(
+        (subject,index)=>{
+
+            const seconds =
+                subjects[subject] || 0;
+
+            if(seconds<=0)return;
+
+            const deg =
+                seconds/total*360;
+
+            const end =
+                currentDeg+deg;
+
+            gradients.push(
+                `${colors[index % colors.length]} ${currentDeg}deg ${end}deg`
+            );
+
+            currentDeg=end;
+
+        }
+    );
+
+    pie.style.background =
+        `conic-gradient(${gradients.join(",")})`;
+
+}
+
+
+/* =====================================================
+   PIE RIGHT CLICK FULLSCREEN
+===================================================== */
+
+document
+.getElementById("pieChart")
+.addEventListener(
+    "contextmenu",
+    function(e){
+
+        e.preventDefault();
+
+        openPieFullscreen();
+
+    }
+);
+
+
+function openPieFullscreen(){
+
+    const popup =
+        document.getElementById("markAnalysisPopup");
+
+    const box =
+        popup.querySelector(".popup-box");
+
+    box.innerHTML=`
+
+        <button
+            class="close-popup"
+            onclick="closePopup('markAnalysisPopup')"
+        >
+            ✕
+        </button>
+
+        <h1>
+            📊 Today's Study Distribution
+        </h1>
+
+        <div
+            style="
+                display:flex;
+                align-items:center;
+                gap:35px;
+                flex-wrap:wrap;
+            "
+        >
+
+            <div
+                id="bigPieChart"
+                style="
+                    width:350px;
+                    height:350px;
+                    border-radius:50%;
+                    flex-shrink:0;
+                "
+            ></div>
+
+            <div
+                id="bigPieDetails"
+                style="
+                    flex:1;
+                    min-width:230px;
+                "
+            ></div>
+
+        </div>
+
+    `;
+
+    const today =
+        new Date().getDay();
+
+    const subjects =
+        studyData[today]?.subjects || {};
+
+    let total=0;
+
+    userSubjects.forEach(subject=>{
+
+        total +=
+            subjects[subject] || 0;
+
+    });
+
+    const colors=[
+
+        "#48d7ff",
+        "#ff6b81",
+        "#20c997",
+        "#ffb13b",
+        "#7357ff",
+        "#a34cff",
+        "#f59e0b",
+        "#22d3ee",
+        "#fb7185"
+
+    ];
+
+    let currentDeg=0;
+
+    let gradients=[];
+
+    let details="";
+
+    userSubjects.forEach(
+        (subject,index)=>{
+
+            const seconds =
+                subjects[subject] || 0;
+
+            if(total>0){
+
+                const deg =
+                    seconds/total*360;
+
+                const end =
+                    currentDeg+deg;
+
+                gradients.push(
+                    `${colors[index % colors.length]} ${currentDeg}deg ${end}deg`
+                );
+
+                currentDeg=end;
+
+            }
+
+            const minutes =
+                Math.floor(seconds/60);
+
+            details += `
+
+                <div
+                    style="
+                        padding:12px 0;
+                        border-bottom:1px solid #29334d;
+                        display:flex;
+                        justify-content:space-between;
+                        gap:15px;
+                    "
+                >
+
+                    <span>
+                        <span
+                            style="
+                                display:inline-block;
+                                width:12px;
+                                height:12px;
+                                border-radius:3px;
+                                background:${colors[index % colors.length]};
+                                margin-right:7px;
+                            "
+                        ></span>
+
+                        ${subject}
+
+                    </span>
+
+                    <strong
+                        style="color:white;"
+                    >
+                        ${minutes} min
+                    </strong>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+    const bigPie =
+        document.getElementById(
+            "bigPieChart"
+        );
+
+    bigPie.style.background =
+        total>0
+        ? `conic-gradient(${gradients.join(",")})`
+        : "#202a40";
+
+    document.getElementById(
+        "bigPieDetails"
+    ).innerHTML=details;
+
+    popup.style.display="flex";
+
+}
+
+
+/* =====================================================
+   POPUP CLOSE
+===================================================== */
+
+function closePopup(id){
+
+    document.getElementById(id)
+        .style.display="none";
+
+}
+
+
+/* =====================================================
+   RESET DATA
+===================================================== */
+
+function openResetPopup(){
+
+    document.getElementById(
+        "resetPopup"
+    ).style.display="flex";
+
+}
+
+
+function closeResetPopup(){
+
+    document.getElementById(
+        "resetPopup"
+    ).style.display="none";
+
+}
+
+
+function confirmResetData(){
+
+    localStorage.removeItem(
+        "studyData"
+    );
+
+    studyData={};
+
+    if(sessionInterval){
+
+        clearInterval(
+            sessionInterval
+        );
+
+        sessionInterval=null;
+
+    }
+
+    sessionSeconds=0;
+
+    currentSubject=null;
+
+    updateSessionDisplay();
+
+    document.getElementById(
+        "sessionStatus"
+    ).textContent="Idle";
+
+    updatePieChart();
+
+    closeResetPopup();
+
+}
+
+
+/* =====================================================
+   MARK ANALYZE
+===================================================== */
+
+function openMarkAnalyze(){
+
+    openMarkTypePopup();
+
+}
+
+
+function openMarkTypePopup(){
+
+    document.getElementById(
+        "markPopup"
+    ).style.display="flex";
+
+}
+
+
+function chooseMarkType(type){
+
+    markType=type;
+
+    closePopup("markPopup");
+
+    openMarkSubjectPopup();
+
+}
+
+
+function openMarkSubjectPopup(){
+
+    const box =
+        document.getElementById(
+            "markSubjectList"
+        );
+
+    box.innerHTML="";
+
+    userSubjects.forEach(subject=>{
+
+        const button =
+            document.createElement("button");
+
+        button.className=
+            "mark-subject-btn";
+
+        button.textContent=subject;
+
+        button.onclick=()=>{
+
+            chooseMarkSubject(subject);
+
+        };
+
+        box.appendChild(button);
+
+    });
+
+    document.getElementById(
+        "markSubjectPopup"
+    ).style.display="flex";
+
+}
+
+
+function chooseMarkSubject(subject){
+
+    markSubject=subject;
+
+    closePopup("markSubjectPopup");
+
+    document.getElementById("markActionSubject").textContent=subject;
+    document.getElementById("markActionPopup").style.display="flex";
+
+}
+
+
+function openAddMarks(){
+
+    closePopup("markActionPopup");
+
+    document.getElementById("paperName").value="";
+    document.getElementById("part1Marks").value="";
+    document.getElementById("part2Marks").value="";
+
+    document.getElementById("markFormPopup").style.display="flex";
+
+}
+
+
+function openDisplayAnalyze(){
+
+    closePopup("markActionPopup");
+    showMarkAnalysis();
+
+}
+
+
+/* =====================================================
+   SAVE MARK
+===================================================== */
+
+function saveMark(){
+
+    const paperName =
+        document.getElementById(
+            "paperName"
+        ).value.trim();
+
+    const part1 =
+        Number(
+            document.getElementById(
+                "part1Marks"
+            ).value
+        );
+
+    const part2 =
+        Number(
+            document.getElementById(
+                "part2Marks"
+            ).value
+        );
+
+    if(
+        !paperName ||
+        isNaN(part1) ||
+        isNaN(part2)
+    ){
+
+        return;
+
+    }
+
+    const total =
+        part1+part2;
+
+    if(!markData[markSubject]){
+
+        markData[markSubject]=[];
+
+    }
+
+    markData[markSubject].push({
+
+        type:markType,
+        paper:paperName,
+        part1:part1,
+        part2:part2,
+        total:total,
+        date:new Date().toLocaleDateString()
+
+    });
+
+    localStorage.setItem(
+        "markData",
+        JSON.stringify(markData)
+    );
+
+    /*
+       IMPORTANT:
+       No browser alert here.
+       Save → directly return to dashboard.
+    */
+
+    closePopup("markFormPopup");
+
+    document.getElementById(
+        "dashboard"
+    ).style.display="block";
+
+}
+
+
+/* =====================================================
+   MARK ANALYZE NORMAL CLICK
+===================================================== */
+
+document
+.querySelector(".analyze-button")
+.addEventListener(
+    "contextmenu",
+    function(e){
+
+        e.preventDefault();
+
+        openMarkAnalyze();
+
+    }
+);
+
+
+/* =====================================================
+   MARK ANALYSIS DATA
+===================================================== */
+
+function showMarkAnalysis(){
+
+    if(!markSubject){
+        return;
+    }
+
+    const allData=markData[markSubject] || [];
+    const data=allData.filter(item=>item.type===markType);
+
+    const popup=document.getElementById("markAnalysisPopup");
+    const box=popup.querySelector(".popup-box");
+
+    box.innerHTML=`
+        <button class="close-popup" onclick="closePopup('markAnalysisPopup')">✕</button>
+        <h1>${markSubject}</h1>
+        <p style="color:#8991a6;">${markType} Marks Analysis</p>
+        ${data.length ? `
+        <div class="mark-chart-wrapper">
+            <canvas id="markChart"></canvas>
+        </div>
+        <div id="markDetails" style="margin-top:20px;color:#8991a6;line-height:1.8;"></div>
+        ` : `<div class="mark-empty">No ${markType} marks have been saved for ${markSubject} yet.<br><br>Click <b>Add Marks</b> to add one.</div>`}
+    `;
+
+    if(!data.length){
+        popup.style.display="flex";
+        return;
+    }
+
+    // Show the popup first so the canvas has a real size.
+    popup.style.display="flex";
+
+    requestAnimationFrame(function(){
+        drawMarkChart(data);
+    });
+
+    let details="";
+    data.forEach((item,index)=>{
+        details += `
+            <div style="padding:10px 0;border-bottom:1px solid #29334d;">
+                <strong style="color:white;">${index+1}. ${item.paper}</strong><br>
+                Part 1: ${item.part1}
+                &nbsp;&nbsp; Part 2: ${item.part2}
+                &nbsp;&nbsp; Total: <strong style="color:#20c997;">${item.total}</strong>
+                <span style="float:right;color:#59647a;">${item.date}</span>
+            </div>
+        `;
+    });
+
+    document.getElementById("markDetails").innerHTML=details;
+
+}
+
+
+/* =====================================================
+   SIMPLE CURVED LINE CHART
+===================================================== */
+
+function drawMarkChart(data){
+
+    const canvas=document.getElementById("markChart");
+    if(!canvas)return;
+
+    const ctx=canvas.getContext("2d");
+    const rect=canvas.getBoundingClientRect();
+    const dpr=window.devicePixelRatio || 1;
+    if(rect.width < 10 || rect.height < 10) return;
+
+    canvas.width=rect.width*dpr;
+    canvas.height=rect.height*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+
+    const width=rect.width;
+    const height=rect.height;
+    ctx.clearRect(0,0,width,height);
+
+    if(!data.length)return;
+
+    const maxMark=Math.max(100,...data.map(x=>Math.max(x.part1,x.part2,x.total)));
+    const left=55,right=25,top=25,bottom=48;
+    const chartW=width-left-right;
+    const chartH=height-top-bottom;
+
+    // Grid and Y axis
+    ctx.strokeStyle="#29334d";
+    ctx.lineWidth=1;
+    ctx.fillStyle="#697286";
+    ctx.font="11px Arial";
+    ctx.textAlign="right";
+
+    for(let i=0;i<=5;i++){
+        const y=top+chartH-(i/5)*chartH;
+        ctx.beginPath();
+        ctx.moveTo(left,y);
+        ctx.lineTo(width-right,y);
+        ctx.stroke();
+        ctx.fillText(Math.round(maxMark*i/5),left-8,y+4);
+    }
+
+    const makePoints=(key)=>data.map((item,index)=>({
+        x:data.length===1?left+chartW/2:left+(index/(data.length-1))*chartW,
+        y:top+chartH-(Number(item[key])||0)/maxMark*chartH
+    }));
+
+    const series=[
+        {key:"part1",label:"1st Part",color:"#48d7ff"},
+        {key:"part2",label:"2nd Part",color:"#ff6b81"},
+        {key:"total",label:"Total",color:"#20c997"}
+    ];
+
+    function drawSmooth(points,color){
+        if(!points.length)return;
+        ctx.beginPath();
+        ctx.moveTo(points[0].x,points[0].y);
+        if(points.length===1){
+            ctx.lineTo(points[0].x+0.01,points[0].y);
+        }else{
+            for(let i=1;i<points.length;i++){
+                const prev=points[i-1];
+                const curr=points[i];
+                const midX=(prev.x+curr.x)/2;
+                ctx.bezierCurveTo(midX,prev.y,midX,curr.y,curr.x,curr.y);
+            }
+        }
+        ctx.strokeStyle=color;
+        ctx.lineWidth=3;
+        ctx.stroke();
+
+        points.forEach(point=>{
+            ctx.beginPath();
+            ctx.arc(point.x,point.y,5,0,Math.PI*2);
+            ctx.fillStyle=color;
+            ctx.fill();
+            ctx.strokeStyle="#ffffff";
+            ctx.lineWidth=2;
+            ctx.stroke();
+        });
+    }
+
+    series.forEach(item=>drawSmooth(makePoints(item.key),item.color));
+
+    // Paper labels
+    ctx.fillStyle="#8991a6";
+    ctx.font="10px Arial";
+    ctx.textAlign="center";
+    data.forEach((item,index)=>{
+        const x=data.length===1?left+chartW/2:left+(index/(data.length-1))*chartW;
+        ctx.fillText(item.paper.length>14?item.paper.slice(0,14)+"…":item.paper,x,height-20);
+    });
+
+    // Legend
+    let legendX=left;
+    ctx.font="11px Arial";
+    series.forEach(item=>{
+        ctx.fillStyle=item.color;
+        ctx.fillRect(legendX,5,10,10);
+        ctx.fillStyle="#8991a6";
+        ctx.fillText(item.label,legendX+45,14);
+        legendX+=90;
+    });
+
+}
+
+
+/* =====================================================
+   COLOR SETTINGS
+===================================================== */
+
+const defaultTheme={
+    bg:"#080b14",
+    card:"#131a2a",
+    input:"#0d1422",
+    border:"#29334d",
+    text:"#f5f7ff",
+    muted:"#8991a6",
+    accent:"#5b5de6",
+    success:"#20c997"
+};
+
+function getTheme(){
+    return JSON.parse(localStorage.getItem("studyTheme")) || {...defaultTheme};
+}
+
+function applyTheme(theme){
+    const root=document.documentElement;
+    root.style.setProperty("--theme-bg",theme.bg);
+    root.style.setProperty("--theme-card",theme.card);
+    root.style.setProperty("--theme-input",theme.input);
+    root.style.setProperty("--theme-border",theme.border);
+    root.style.setProperty("--theme-text",theme.text);
+    root.style.setProperty("--theme-muted",theme.muted);
+    root.style.setProperty("--theme-accent",theme.accent);
+    root.style.setProperty("--theme-success",theme.success);
+}
+
+function openSettings(){
+    const t=getTheme();
+    document.getElementById("colorBg").value=t.bg;
+    document.getElementById("colorCard").value=t.card;
+    document.getElementById("colorInput").value=t.input;
+    document.getElementById("colorBorder").value=t.border;
+    document.getElementById("colorText").value=t.text;
+    document.getElementById("colorMuted").value=t.muted;
+    document.getElementById("colorAccent").value=t.accent;
+    document.getElementById("colorSuccess").value=t.success;
+    document.getElementById("settingsPopup").style.display="flex";
+}
+
+function closeSettings(){
+    document.getElementById("settingsPopup").style.display="none";
+}
+
+function saveTheme(){
+    const theme={
+        bg:document.getElementById("colorBg").value,
+        card:document.getElementById("colorCard").value,
+        input:document.getElementById("colorInput").value,
+        border:document.getElementById("colorBorder").value,
+        text:document.getElementById("colorText").value,
+        muted:document.getElementById("colorMuted").value,
+        accent:document.getElementById("colorAccent").value,
+        success:document.getElementById("colorSuccess").value
+    };
+    localStorage.setItem("studyTheme",JSON.stringify(theme));
+    applyTheme(theme);
+    closeSettings();
+}
+
+function resetTheme(){
+    localStorage.removeItem("studyTheme");
+    applyTheme({...defaultTheme});
+    openSettings();
+}
+
+applyTheme(getTheme());
+
+window.addEventListener("resize",function(){
+    const popup=document.getElementById("markAnalysisPopup");
+    if(popup && getComputedStyle(popup).display!=="none" && markSubject){
+        const data=(markData[markSubject]||[]).filter(item=>item.type===markType);
+        if(data.length) requestAnimationFrame(()=>drawMarkChart(data));
+    }
+});
+
+/* =====================================================
+   DASHBOARD NAME
+===================================================== */
+
+const savedName =
+    localStorage.getItem("userName");
+
+if(savedName){
+
+    document.getElementById(
+        "dashName"
+    ).textContent=savedName;
+
+}
+
+
+/* =====================================================
+   CLICK STAR EFFECT
+===================================================== */
+
+document.addEventListener(
+    "click",
+    function(e){
+
+        /*
+           Don't create stars from buttons
+           that are inside fullscreen popups
+           if the click is on an input.
+        */
+
+        if(
+            e.target.tagName==="INPUT" ||
+            e.target.tagName==="SELECT" ||
+            e.target.tagName==="OPTION"
+        ){
+
+            return;
+
+        }
+
+        const starCount=10;
+
+        for(
+            let i=0;
+            i<starCount;
+            i++
+        ){
+
+            const star =
+                document.createElement("span");
+
+            star.className="click-star";
+
+            star.textContent="✦";
+
+            star.style.left =
+                e.clientX+"px";
+
+            star.style.top =
+                e.clientY+"px";
+
+            const angle =
+                Math.random()*Math.PI*2;
+
+            const distance =
+                30+
+                Math.random()*50;
+
+            const x =
+                Math.cos(angle)*distance;
+
+            const y =
+                Math.sin(angle)*distance;
+
+            star.style.setProperty(
+                "--x",
+                x+"px"
+            );
+
+            star.style.setProperty(
+                "--y",
+                y+"px"
+            );
+
+            star.style.animationDelay =
+                Math.random()*100+"ms";
+
+            document.body.appendChild(star);
+
+            setTimeout(()=>{
+
+                star.remove();
+
+            },800);
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   MOBILE QUICK PANELS
+===================================================== */
+function closeMobilePanels(){
+    const dashboard=document.getElementById("dashboard");
+    if(!dashboard)return;
+    dashboard.classList.remove("mobile-left-open","mobile-right-open");
+}
+
+function toggleMobilePanel(which){
+    const dashboard=document.getElementById("dashboard");
+    if(!dashboard)return;
+    if(which==="left"){
+        const opening=!dashboard.classList.contains("mobile-left-open");
+        dashboard.classList.remove("mobile-right-open");
+        dashboard.classList.toggle("mobile-left-open",opening);
+    }else{
+        const opening=!dashboard.classList.contains("mobile-right-open");
+        dashboard.classList.remove("mobile-left-open");
+        dashboard.classList.toggle("mobile-right-open",opening);
+        if(opening){
+            try{updatePieChart();}catch(e){}
+        }
+    }
+}
+
+// Close mobile drawers after selecting an action outside them.
+document.addEventListener("keydown",function(e){
+    if(e.key==="Escape") closeMobilePanels();
+});
+
+/* =====================================================
+   INITIAL
+===================================================== */
+
+updatePomodoro();
+
+updateCustomDisplay(); 
+
+updateSessionDisplay();
+
+</script>
+
+</body>
+</html>
