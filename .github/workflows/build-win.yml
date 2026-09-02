@@ -19,40 +19,36 @@ jobs:
         with:
           node-version: 20
 
-      - name: Setup Project Structure
+      - name: Create Structure and Configs
         shell: powershell
         run: |
           New-Item -ItemType Directory -Force -Path app_src
           Get-ChildItem -Exclude "app_src", ".git", ".github" | Move-Item -Destination app_src
           
-          $packageJson = @'
-          {
-            "name": "stp-dashboard",
-            "version": "1.0.0",
-            "productName": "STP DASHBOARD",
-            "main": "main.js",
-            "scripts": {
-              "dist": "electron-builder --win nsis"
-            },
-            "build": {
-              "appId": "com.stpdashboard.app",
-              "directories": {
-                "output": "dist"
-              },
-              "files": [
+          @{
+            name = "stp-dashboard"
+            version = "1.0.0"
+            productName = "STP DASHBOARD"
+            main = "main.js"
+            scripts = @{
+              build = "electron-builder --win nsis"
+            }
+            build = @{
+              appId = "com.stpdashboard.app"
+              directories = @{
+                output = "dist"
+              }
+              files = @(
                 "main.js",
                 "app_src/**/*"
-              ],
-              "win": {
-                "target": "nsis"
-              },
-              "publish": null
+              )
+              win = @{
+                target = "nsis"
+              }
             }
-          }
-          '@
-          Set-Content -Path package.json -Value $packageJson
+          } | ConvertTo-Json -Depth 5 | Set-Content -Path package.json
 
-          $mainJs = @'
+          @'
           const { app, BrowserWindow } = require('electron');
           const path = require('path');
 
@@ -75,13 +71,14 @@ jobs:
           app.on('window-all-closed', () => {
             if (process.platform !== 'darwin') app.quit();
           });
-          '@
-          Set-Content -Path main.js -Value $mainJs
+          '@ | Set-Content -Path main.js
 
       - name: Install Dependencies
         run: npm install --save-dev electron electron-builder
 
       - name: Build Windows Executable (.exe)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx electron-builder --win nsis -c.publish=never
 
       - name: Upload Windows EXE Artifact
