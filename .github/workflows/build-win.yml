@@ -56,18 +56,28 @@ jobs:
           Set-Content -Path windows-app/package.json -Value $packageJson
 
           $mainJs = @'
-          const { app, BrowserWindow } = require('electron');
+          const { app, BrowserWindow, screen } = require('electron');
           const path = require('path');
 
           function createWindow() {
+            const primaryDisplay = screen.getPrimaryDisplay();
+            const { width, height } = primaryDisplay.workAreaSize;
+
             const win = new BrowserWindow({
-              width: 1280,
-              height: 800,
+              width: width,
+              height: height,
               autoHideMenuBar: true,
               webPreferences: {
                 nodeIntegration: false,
                 contextIsolation: true
               }
+            });
+
+            win.maximize();
+
+            // Screen එකට exact fit වෙන විදිහට zoom එක auto-adjust කිරීම
+            win.webContents.on('did-finish-load', () => {
+              win.webContents.setZoomFactor(0.75);
             });
 
             win.loadFile(path.join(__dirname, 'index.html'));
