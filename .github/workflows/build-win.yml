@@ -45,6 +45,12 @@ jobs:
               "win": {
                 "target": "nsis"
               },
+              "nsis": {
+                "oneClick": false,
+                "allowToChangeInstallationDirectory": true,
+                "createDesktopShortcut": true,
+                "createStartMenuShortcut": true
+              },
               "publish": null
             },
             "devDependencies": {
@@ -75,7 +81,6 @@ jobs:
 
             win.maximize();
 
-            // Screen එකට exact fit වෙන විදිහට zoom එක auto-adjust කිරීම
             win.webContents.on('did-finish-load', () => {
               win.webContents.setZoomFactor(0.75);
             });
