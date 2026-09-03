@@ -224,11 +224,6 @@
 <div class="color-row"><span>Dashboard Background</span><input type="color" id="colorBg"></div>
 <div class="color-row"><span>Cards / Panels</span><input type="color" id="colorCard"></div>
 <div class="color-row"><span>Input Background</span><input type="color" id="colorInput"></div>
-<div class="color-row"><span>Borders</span><input type="color" id="colorBorder"></div>
-<div class="color-row"><span>Main Text</span><input type="color" id="colorText"></div>
-<div class="color-row"><span>Muted Text</span><input type="color" id="colorMuted"></div>
-<div class="color-row"><span>Accent</span><input type="color" id="colorAccent"></div>
-<div class="color-row"><span>Success</span><input type="color" id="colorSuccess"></div>
 <div class="settings-actions">
 <button class="settings-reset" onclick="resetTheme()">Reset Default</button>
 <button class="settings-save" onclick="saveTheme()">Save Colors</button>
@@ -247,16 +242,6 @@
 <h2>Weekly Summary</h2>
 <div class="popup-stat"><span>Total Weekly Study</span><strong id="weeklyTotal">0h 0m</strong></div>
 <div class="popup-stat"><span>Daily Average</span><strong id="weeklyAverage">0h 0m</strong></div>
-</div>
-</div>
-
-<!-- FULLSCREEN TIMER POPUP -->
-<div id="timerPopup" class="fullscreen-popup">
-<div class="fullscreen-timer-box">
-<button class="close-popup" onclick="closePopup('timerPopup')">✕</button>
-<div id="fullscreenTimerTitle">Pomodoro</div>
-<div id="fullscreenTimerValue">25:00</div>
-<p>Right-click again to close</p>
 </div>
 </div>
 
@@ -349,14 +334,427 @@
 <div class="popup-box">
 <button class="close-popup" onclick="closePopup('markAnalysisPopup')">✕</button>
 <h1 id="analysisTitle">Mark Analysis</h1>
-<div class="mark-chart-wrapper"><canvas id="markChart"></canvas></div>
 <div id="markDetails" style="margin-top:20px; color:#8991a6; line-height:1.8;"></div>
 </div>
 </div>
 
-<!-- SCRAMBLED / PROTECTED JAVASCRIPT -->
+<!-- STABLE & PROTECTED JAVASCRIPT -->
 <script>
-eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('O 2=M.15(N.7(\'12\'))||[];O 3=M.15(N.7(\'11\'))||{};O R=\'\';O q=[];O 5=M.15(N.7(\'5\'))||[];O n=C;O T=\'\';O C=\'\';O B=M.15(N.7(\'B\'))||{};O Q=C;O V=C;N.16("13",O(e){e.14()});N.10("1a",O(e){8(e.18=="19"||e.18=="F"||(e.1f&&e.1e&&e.1b=="I")||(e.1f&&e.1b=="U")){e.14();e.1d()}});O f=C;O A=C;P startApp(){w{8(A)1g(A);a g=N.7(\'1h\');8(g){showHello(g)}K{N.2(\'SPLASH\').1i.1j=\'1k\';N.2(\'1m\').1i.1j=\'1n\';N.2(\'1l\').1i.1j=\'1o\'}}w(1p){revealDashboard()}}P revealDashboard(){8(f)1q(f);N.2(\'SPLASH\').1i.1j=\'1k\';N.2(\'1m\').1i.1j=\'1k\';N.2(\'HELLO\').1i.1j=\'1k\';a h=N.2(\'DASHBOARD\');h.1i.1j=\'1r\';N.2(\'1s\').1c=N.7(\'1h\')||\'\';loadUserSubjects();renderTasks();updateWeekNumber();setupCurrentDay()}P showHello(name){N.2(\'SPLASH\').1i.1j=\'1k\';N.2(\'1t\').1c=name;N.2(\'HELLO\').1i.1j=\'1u\';f=1v(()=>revealDashboard(),1w)}P nextFromSlide1(){a i=N.2(\'name\').1x.1y();a j=N.2(\'age\').1x.1y();a k=N.2(\'school\').1x.1y();a l=N.2(\'studyLevel\').1x;8(!i||!j||!k||!l){1z("1A 1B 1C 1D!");1E}N.1F(\'1h\',i);N.1F(\'1G\',j);N.1F(\'1H\',k);N.1F(\'1I\',l);N.2(\'1m\').1i.1j=\'1k\';8(l===\'AL\'){N.2(\'1J\').1i.1j=\'1r\'}K{openOLSubjects()}}P selectStream(stream){R=stream;q=[];N.2(\'1J\').1i.1j=\'1k\';N.2(\'1K\').1i.1j=\'1r\';showSubjects(stream)}P showSubjects(stream){a m=N.2(\'1L\');m.1M=\'\';a x=[];8(stream===\'Maths\')x=[\'1N 1O\',\'1P\',\'1Q\',\'ICT\'];1R 8(stream===\'Bio\')x=[\'1S\',\'1P\',\'1Q\',\'1T Science\'];1R 8(stream===\'Technology\')x=[\'1U Tech\',\'Bio Systems Tech\',\'Science for Tech\',\'ICT\'];1R 8(stream===\'Commerce\')x=[\'1V\',\'1W Studies\',\'1X\',\'ICT\'];K x=[\'1X\',\'1Y\',\'1Z\',\'20\',\'21 Science\',\'22\'];x.23(24=>{a b=N.25(\'button\');b.1c=24;b.26=()=>toggleSubject(b,24);m.27(b)})}P toggleSubject(btn,sub){8(q.28(sub)){q=q.29(s=>s!==sub);btn.2a.2b(\'selected\')}K{8(q.2c>=3)1E;q.2d(sub);btn.2a.2e(\'selected\')}}P finishSubjects(){8(q.2c!==3){1z("2f 2g 2h 2i 3 2j!");1E}5=[...q];N.1F(\'5\',M.2k(5));showHello(N.7(\'1h\'))}P backToSlide1(){N.2(\'1J\').1i.1j=\'1k\';N.2(\'1m\').1i.1j=\'1r\'}P backToSlide2(){N.2(\'1K\').1i.1j=\'1k\';N.2(\'1J\').1i.1j=\'1r\'}a 2l=[\'Religion\',\'First Language\',\'English\',\'Mathematics\',\'Science\',\'History\'];a 2m=[\'Business Studies\',\'Geography\',\'Civic Education\',\'Entrepreneurship\'];a 2n=[\'Music\',\'Art\',\'Dance\',\'Drama\',\'Tamil Literature\',\'English Literature\'];a 2o=[\'ICT\',\'Agriculture\',\'Health Science\',\'Home Economics\',\'Technical Studies\'];P openOLSubjects(){N.2(\'2p\').1i.1j=\'1r\';N.2(\'2q\').1M="Core: "+2l.2r(\', \');fillOLSelect(\'2s\',2m);fillOLSelect(\'2t\',2n);fillOLSelect(\'2u\',2o)}P fillOLSelect(id,items){a c=N.2(id);c.1M=\'<2v 2w="">Select Subject</2v>\';items.23(i=>{a o=N.25(\'option\');o.2w=i;o.1c=i;c.27(o)})}P finishOLSubjects(){a b1=N.2(\'2s\').1x;a b2=N.2(\'2t\').1x;a b3=N.2(\'2u\').1x;8(!b1||!b2||!b3){1z("2f 2g a subject 2x each 2y!");1E}5=[...2l,b1,b2,b3];N.1F(\'5\',M.2k(5));showHello(N.7(\'1h\'))}P backToSlide1FromOL(){N.2(\'2p\').1i.1j=\'1k\';N.2(\'1m\').1i.1j=\'1r\'}P loadUserSubjects(){5=M.15(N.7(\'5\'))||[];a d=N.2(\'2z\');8(d){d.1M=\'\';5.23(sub=>{a o=N.25(\'option\');o.2w=sub;o.1c=sub;d.27(o)})}a e=N.2(\'2A\');8(e){e.1M=\'\';5.23(sub=>{a b=N.25(\'button\');b.1c=sub;b.26=()=>startWithSubject(sub);e.27(b)})}}P renderTasks(){a f=N.2(\'2B\');8(!f)1E;f.1M=\'\';2.23((task,index)=>{a g=N.25(\'div\');g.2C=\'task-item\';g.1M=`<div class="task-check ${task.completed?\'completed\':\'\'}" onclick="completeTask(${index})">${task.completed?\'✓\':\'\'}</div><div class="task-text ${task.completed?\'completed\':\'\'}">${task.text} (${task.subject})</div><button class="delete-task" onclick="deleteTask(${index})">✕</button>`;f.27(g)})}P addTask(){a h=N.2(\'2D\');a i=N.2(\'2z\').1x;a j=h.1x.1y();8(!j)1E;2.2d({text:j,subject:i,completed:2E});N.1F(\'12\',M.2k(2));renderTasks();h.1x=\'\'}P completeTask(index){2[index].completed=!2[index].completed;N.1F(\'12\',M.2k(2));renderTasks()}P deleteTask(index){2.2F(index,1);N.1F(\'12\',M.2k(2));renderTasks()}a p=25*60;a Y=C;P updatePomodoro(){a m=M.2G(p/60);a s=p%60;a k=String(m).2H(2,\'0\')+\':\'+String(s).2H(2,\'0\');N.2(\'2I\').1c=k}P startPomodoro(){8(Y)1E;Y=2J(()=>{8(p>0){p--;updatePomodoro()}K{pausePomodoro();showTimerFinishPopup("Pomodoro Completed!","Great job! Time for a break.")}},1000)}P pausePomodoro(){2K(Y);Y=C}P resetPomodoro(){pausePomodoro();p=25*60;updatePomodoro()}a t=0;a Z=C;P setCustomTimer(){a h=2L(N.2(\'2M\').1x)||0;a m=2L(N.2(\'2N\').1x)||0;a s=2L(N.2(\'2O\').1x)||0;t=h*3600+m*60+s;updateCustomDisplay()}P updateCustomDisplay(){a h=M.2G(t/3600);a m=M.2G((t%3600)/60);a s=t%60;N.2(\'2P\').1c=String(h).2H(2,\'0\')+\':\'+String(m).2H(2,\'0\')+\':\'+String(s).2H(2,\'0\')}P startCustomTimer(){8(Z||t<=0)1E;Z=2J(()=>{8(t>0){t--;updateCustomDisplay()}K{pauseCustomTimer();showTimerFinishPopup("Custom Timer Finished!","Your custom timer session has finished.")}},1000)}P pauseCustomTimer(){2K(Z);Z=C}P resetCustomTimer(){pauseCustomTimer();t=0;updateCustomDisplay()}a u=0;a v=C;P openSubjectPopup(){N.2(\'2Q\').1i.1j=\'1u\'}P closeSubjectPopup(){N.2(\'2Q\').1i.1j=\'1k\'}P startWithSubject(sub){n=sub;closeSubjectPopup();N.2(\'2R\').1c=sub;8(v)2K(v);v=2J(()=>{u++;a h=M.2G(u/3600);a m=M.2G((u%3600)/60);a s=u%60;N.2(\'2S\').1c=String(h).2H(2,\'0\')+\':\'+String(m).2H(2,\'0\')+\':\'+String(s).2H(2,\'0\')},1000)}P endSession(){8(!v)1E;2K(v);v=C;a w=new Date().getDay();8(!3[w])3[w]={total:0,sessions:0};3[w].total+=u;3[w].sessions+=1;N.1F(\'11\',M.2k(3));u=0;N.2(\'2S\').1c=\'00:00:00\';N.2(\'2R\').1c=\'Idle\'}P setupCurrentDay(){a w=new Date().getDay();N.2T(\'.day\').23(btn=>{btn.2a.2b(\'today\');8(Number(btn.2U.day)===w){btn.2a.2e(\'today\')}})}P updateWeekNumber(){a x=new Date();a y=new Date(x.getFullYear(),0,1);a z=(x-y)/86400000;a A=M.2V((z+y.getDay()+1)/7);N.2(\'2W\').1c=String(A).2H(2,\'0\')}P openResetPopup(){N.2(\'2X\').1i.1j=\'1u\'}P closeResetPopup(){N.2(\'2X\').1i.1j=\'1k\'}P confirmResetData(){3={};N.2Y(\'11\');closeResetPopup()}P showTimerFinishPopup(title,msg){N.2(\'2Z\').1c=title;N.2(\'30\').1c=msg;N.2(\'31\').1i.1j=\'1u\'}P closeTimerFinishPopup(){N.2(\'31\').1i.1j=\'1k\'}P closePopup(id){N.2(id).1i.1j=\'1k\'}P openMarkAnalyze(){N.2(\'32\').1i.1j=\'1u\'}P chooseMarkType(type){T=type;closePopup(\'32\');a B=N.2(\'33\');B.1M=\'\';5.23(sub=>{a b=N.25(\'button\');b.2C=\'mark-subject-btn\';b.1c=sub;b.26=()=>selectMarkSubject(sub);B.27(b)});N.2(\'34\').1i.1j=\'1u\'}P selectMarkSubject(sub){Q=sub;closePopup(\'34\');N.2(\'35\').1c=sub;N.2(\'36\').1i.1j=\'1u\'}P openAddMarks(){closePopup(\'36\');N.2(\'37\').1i.1j=\'1u\'}P openDisplayAnalyze(){closePopup(\'36\');N.2(\'38\').1c=Q+" - "+T;a C=N.2(\'39\');a D=Q+\'_\'+T;a E=B[D]||[];8(E.2c===0){C.1M="<p>No marks recorded yet.</p>"}K{a F="<ul>";E.23(r=>{F+=`<li><strong>${r.paper}</strong>: Part 1 = ${r.p1}, Part 2 = ${r.p2} (Total: ${r.p1+r.p2})</li>`});F+="</ul>";C.1M=F}N.2(\'3a\').1i.1j=\'1u\'}P saveMark(){a G=N.2(\'3b\').1x.1y();a H=2L(N.2(\'3c\').1x)||0;a I=2L(N.2(\'3d\').1x)||0;8(!G){1z("Enter paper name!");1E}a D=Q+\'_\'+T;8(!B[D])B[D]=[];B[D].2d({paper:G,p1:H,p2:I});N.1F(\'3e\',M.2k(B));N.2(\'3b\').1x=\'\';N.2(\'3c\').1x=\'\';N.2(\'3d\').1x=\'\';closePopup(\'37\')}P openSettings(){N.2(\'3f\').1i.1j=\'1u\'}P closeSettings(){N.2(\'3f\').1i.1j=\'1k\'}P saveTheme(){a J=N.3g;8(N.2(\'3h\').1x)J.1i.3i(\'--theme-bg\',N.2(\'3h\').1x);8(N.2(\'3j\').1x)J.1i.3i(\'--theme-card\',N.2(\'3j\').1x);8(N.2(\'3k\').1x)J.1i.3i(\'--theme-input\',N.2(\'3k\').1x);closeSettings()}P resetTheme(){a J=N.3g;J.1i.3i(\'--theme-bg\',\'#080b14\');J.1i.3i(\'--theme-card\',\'#131a2a\');J.1i.3i(\'--theme-input\',\'#0d1422\');closeSettings()}N.10(\'3l\',()=>{startApp()});',62,206,'||tasks|studyData||userSubjects||getElementById|if|||||||||||||||||pomodoroSeconds|selectedSubjects|||customSeconds|sessionSeconds|sessionInterval|try|||helloTimer|startupTimer|markData|null|||F12|paper|part1Marks|I|selectedStream|else|Math|localStorage|document|let|function|markSubject|selectedStreamVal|SPLASH_ID|markType|U|markActionSubject|pomodoroInterval|customInterval|addEventListener|studyDataKey|studyTasksKey|contextmenu|preventDefault|parse|onkeydown|getItem|userName|style|display|none|helloName|setupSlide1|block|flex|catch|clearTimeout|noneVal|dashName|helloSmall|flexVal|setTimeout|2000|value|trim|alert|Please|fill|in|all|return|setItem|userAge|userSchool|studyLevel|setupSlide2|setupSlide3|subjectOptions|innerHTML|Combined|Mathematics|Physics|Chemistry|else|Biology|Agricultural|Engineering|Accounting|Business|Economics|Geography|History|Logic|Political|Languages|forEach|sub|createElement|onclick|appendChild|includes|filter|classList|remove|length|push|add|select|exactly|subjects|olCoreSubjects|olBasket1|olBasket2|olBasket3|olSubjectSlide|olCoreSubjectsDiv|join|olBasket1Sel|olBasket2Sel|olBasket3Sel|option|valueVal|from|basket|taskSubject|sessionSubjects|taskList|className|taskInput|false|splice|floor|padStart|pomodoroDisplay|setInterval|clearInterval|parseInt|customHours|customMinutes|customSeconds|customDisplay|subjectPopup|sessionStatus|sessionDisplay|querySelectorAll|dataset|ceil|weekNumber|resetPopup|removeItem|timerFinishTitle|timerFinishMessage|timerFinishPopup|markPopup|markSubjectList|markSubjectPopup|markActionSubjectLbl|markActionPopup|markFormPopup|analysisTitle|markDetails|markAnalysisPopup|paperName|part1MarksInp|part2MarksInp|markDataKey|settingsPopup|documentElement|colorBg|setProperty|colorCard|colorInput|DOMContentLoaded'.split('|'),0,{}))
+// Disable Right Click & Key Shortcuts
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.onkeydown = function(e) {
+  if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
+    return false;
+  }
+};
+
+let tasks = JSON.parse(localStorage.getItem('studyTasksKey')) || [];
+let studyData = JSON.parse(localStorage.getItem('studyDataKey')) || {};
+let selectedStream = '';
+let selectedSubjects = [];
+let userSubjects = JSON.parse(localStorage.getItem('userSubjects')) || [];
+let currentSessionSub = null;
+let markType = '';
+let markSubject = '';
+let markData = JSON.parse(localStorage.getItem('markDataKey')) || {};
+
+function startApp() {
+  setTimeout(() => {
+    let savedName = localStorage.getItem('userName');
+    if (savedName) {
+      showHello(savedName);
+    } else {
+      document.getElementById('splash').style.display = 'none';
+      document.getElementById('setup').style.display = 'flex';
+    }
+  }, 1800);
+}
+
+function showHello(name) {
+  document.getElementById('splash').style.display = 'none';
+  document.getElementById('setup').style.display = 'none';
+  document.getElementById('helloName').innerText = name;
+  document.getElementById('hello').style.display = 'flex';
+  setTimeout(() => revealDashboard(), 2000);
+}
+
+function revealDashboard() {
+  document.getElementById('splash').style.display = 'none';
+  document.getElementById('hello').style.display = 'none';
+  document.getElementById('setup').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  document.getElementById('dashName').innerText = localStorage.getItem('userName') || '';
+  loadUserSubjects();
+  renderTasks();
+  updateWeekNumber();
+  setupCurrentDay();
+}
+
+function nextFromSlide1() {
+  let name = document.getElementById('name').value.trim();
+  let age = document.getElementById('age').value.trim();
+  let school = document.getElementById('school').value.trim();
+  let level = document.getElementById('studyLevel').value;
+  if (!name || !age || !school || !level) {
+    alert("Please fill in all fields!");
+    return;
+  }
+  localStorage.setItem('userName', name);
+  localStorage.setItem('userAge', age);
+  localStorage.setItem('userSchool', school);
+  localStorage.setItem('studyLevel', level);
+  document.getElementById('setupSlide1').style.display = 'none';
+  if (level === 'AL') {
+    document.getElementById('setupSlide2').style.display = 'block';
+  } else {
+    openOLSubjects();
+  }
+}
+
+function selectStream(stream) {
+  selectedStream = stream;
+  selectedSubjects = [];
+  document.getElementById('setupSlide2').style.display = 'none';
+  document.getElementById('setupSlide3').style.display = 'block';
+  showSubjects(stream);
+}
+
+function showSubjects(stream) {
+  let container = document.getElementById('subjectOptions');
+  container.innerHTML = '';
+  let list = [];
+  if (stream === 'Maths') list = ['Combined Mathematics', 'Physics', 'Chemistry', 'ICT'];
+  else if (stream === 'Bio') list = ['Biology', 'Physics', 'Chemistry', 'Agricultural Science'];
+  else if (stream === 'Technology') list = ['Engineering Tech', 'Bio Systems Tech', 'Science for Tech', 'ICT'];
+  else if (stream === 'Commerce') list = ['Accounting', 'Business Studies', 'Economics', 'ICT'];
+  else list = ['Economics', 'Geography', 'History', 'Logic', 'Political Science', 'Languages'];
+  
+  list.forEach(sub => {
+    let btn = document.createElement('button');
+    btn.innerText = sub;
+    btn.onclick = () => toggleSubject(btn, sub);
+    container.appendChild(btn);
+  });
+}
+
+function toggleSubject(btn, sub) {
+  if (selectedSubjects.includes(sub)) {
+    selectedSubjects = selectedSubjects.filter(s => s !== sub);
+    btn.classList.remove('selected');
+  } else {
+    if (selectedSubjects.length >= 3) return;
+    selectedSubjects.push(sub);
+    btn.classList.add('selected');
+  }
+}
+
+function finishSubjects() {
+  if (selectedSubjects.length !== 3) {
+    alert("Please select exactly 3 subjects!");
+    return;
+  }
+  userSubjects = [...selectedSubjects];
+  localStorage.setItem('userSubjects', JSON.stringify(userSubjects));
+  showHello(localStorage.getItem('userName'));
+}
+
+function backToSlide1() {
+  document.getElementById('setupSlide2').style.display = 'none';
+  document.getElementById('setupSlide1').style.display = 'block';
+}
+
+function backToSlide2() {
+  document.getElementById('setupSlide3').style.display = 'none';
+  document.getElementById('setupSlide2').style.display = 'block';
+}
+
+const olCoreList = ['Religion', 'First Language', 'English', 'Mathematics', 'Science', 'History'];
+const olB1 = ['Business Studies', 'Geography', 'Civic Education', 'Entrepreneurship'];
+const olB2 = ['Music', 'Art', 'Dance', 'Drama', 'Tamil Literature', 'English Literature'];
+const olB3 = ['ICT', 'Agriculture', 'Health Science', 'Home Economics', 'Technical Studies'];
+
+function openOLSubjects() {
+  document.getElementById('olSubjectSlide').style.display = 'block';
+  document.getElementById('olCoreSubjects').innerHTML = "Core: " + olCoreList.join(', ');
+  fillOLSelect('olBasket1', olB1);
+  fillOLSelect('olBasket2', olB2);
+  fillOLSelect('olBasket3', olB3);
+}
+
+function fillOLSelect(id, items) {
+  let select = document.getElementById(id);
+  select.innerHTML = '<option value="">Select Subject</option>';
+  items.forEach(i => {
+    let o = document.createElement('option');
+    o.value = i;
+    o.innerText = i;
+    select.appendChild(o);
+  });
+}
+
+function finishOLSubjects() {
+  let b1 = document.getElementById('olBasket1').value;
+  let b2 = document.getElementById('olBasket2').value;
+  let b3 = document.getElementById('olBasket3').value;
+  if (!b1 || !b2 || !b3) {
+    alert("Please select a subject from each basket!");
+    return;
+  }
+  userSubjects = [...olCoreList, b1, b2, b3];
+  localStorage.setItem('userSubjects', JSON.stringify(userSubjects));
+  showHello(localStorage.getItem('userName'));
+}
+
+function backToSlide1FromOL() {
+  document.getElementById('olSubjectSlide').style.display = 'none';
+  document.getElementById('setupSlide1').style.display = 'block';
+}
+
+function loadUserSubjects() {
+  userSubjects = JSON.parse(localStorage.getItem('userSubjects')) || [];
+  let select = document.getElementById('taskSubject');
+  if (select) {
+    select.innerHTML = '';
+    userSubjects.forEach(sub => {
+      let o = document.createElement('option');
+      o.value = sub;
+      o.innerText = sub;
+      select.appendChild(o);
+    });
+  }
+  let popDiv = document.getElementById('sessionSubjects');
+  if (popDiv) {
+    popDiv.innerHTML = '';
+    userSubjects.forEach(sub => {
+      let b = document.createElement('button');
+      b.innerText = sub;
+      b.onclick = () => startWithSubject(sub);
+      popDiv.appendChild(b);
+    });
+  }
+}
+
+function renderTasks() {
+  let list = document.getElementById('taskList');
+  if (!list) return;
+  list.innerHTML = '';
+  tasks.forEach((task, index) => {
+    let div = document.createElement('div');
+    div.className = 'task-item';
+    div.innerHTML = `<div class="task-check ${task.completed ? 'completed' : ''}" onclick="completeTask(${index})">${task.completed ? '✓' : ''}</div><div class="task-text ${task.completed ? 'completed' : ''}">${task.text} (${task.subject})</div><button class="delete-task" onclick="deleteTask(${index})">✕</button>`;
+    list.appendChild(div);
+  });
+}
+
+function addTask() {
+  let inp = document.getElementById('taskInput');
+  let sub = document.getElementById('taskSubject').value;
+  let text = inp.value.trim();
+  if (!text) return;
+  tasks.push({ text: text, subject: sub, completed: false });
+  localStorage.setItem('studyTasksKey', JSON.stringify(tasks));
+  renderTasks();
+  inp.value = '';
+}
+
+function completeTask(i) {
+  tasks[i].completed = !tasks[i].completed;
+  localStorage.setItem('studyTasksKey', JSON.stringify(tasks));
+  renderTasks();
+}
+
+function deleteTask(i) {
+  tasks.splice(i, 1);
+  localStorage.setItem('studyTasksKey', JSON.stringify(tasks));
+  renderTasks();
+}
+
+let pomodoroSeconds = 25 * 60;
+let pomodoroInterval = null;
+function updatePomodoro() {
+  let m = Math.floor(pomodoroSeconds / 60);
+  let s = pomodoroSeconds % 60;
+  document.getElementById('pomodoroDisplay').innerText = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+}
+function startPomodoro() {
+  if (pomodoroInterval) return;
+  pomodoroInterval = setInterval(() => {
+    if (pomodoroSeconds > 0) {
+      pomodoroSeconds--;
+      updatePomodoro();
+    } else {
+      pausePomodoro();
+      showTimerFinishPopup("Pomodoro Completed!", "Great job! Time for a break.");
+    }
+  }, 1000);
+}
+function pausePomodoro() { clearInterval(pomodoroInterval); pomodoroInterval = null; }
+function resetPomodoro() { pausePomodoro(); pomodoroSeconds = 25 * 60; updatePomodoro(); }
+
+let customSeconds = 0;
+let customInterval = null;
+function setCustomTimer() {
+  let h = parseInt(document.getElementById('customHours').value) || 0;
+  let m = parseInt(document.getElementById('customMinutes').value) || 0;
+  let s = parseInt(document.getElementById('customSeconds').value) || 0;
+  customSeconds = h * 3600 + m * 60 + s;
+  updateCustomDisplay();
+}
+function updateCustomDisplay() {
+  let h = Math.floor(customSeconds / 3600);
+  let m = Math.floor((customSeconds % 3600) / 60);
+  let s = customSeconds % 60;
+  document.getElementById('customDisplay').innerText = String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+}
+function startCustomTimer() {
+  if (customInterval || customSeconds <= 0) return;
+  customInterval = setInterval(() => {
+    if (customSeconds > 0) {
+      customSeconds--;
+      updateCustomDisplay();
+    } else {
+      pauseCustomTimer();
+      showTimerFinishPopup("Custom Timer Finished!", "Your timer session has finished.");
+    }
+  }, 1000);
+}
+function pauseCustomTimer() { clearInterval(customInterval); customInterval = null; }
+function resetCustomTimer() { pauseCustomTimer(); customSeconds = 0; updateCustomDisplay(); }
+
+let sessionSeconds = 0;
+let sessionInterval = null;
+function openSubjectPopup() { document.getElementById('subjectPopup').style.display = 'flex'; }
+function closeSubjectPopup() { document.getElementById('subjectPopup').style.display = 'none'; }
+function startWithSubject(sub) {
+  currentSessionSub = sub;
+  closeSubjectPopup();
+  document.getElementById('sessionStatus').innerText = sub;
+  if (sessionInterval) clearInterval(sessionInterval);
+  sessionInterval = setInterval(() => {
+    sessionSeconds++;
+    let h = Math.floor(sessionSeconds / 3600);
+    let m = Math.floor((sessionSeconds % 3600) / 60);
+    let s = sessionSeconds % 60;
+    document.getElementById('sessionDisplay').innerText = String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  }, 1000);
+}
+function endSession() {
+  if (!sessionInterval) return;
+  clearInterval(sessionInterval);
+  sessionInterval = null;
+  let day = new Date().getDay();
+  if (!studyData[day]) studyData[day] = { total: 0, sessions: 0 };
+  studyData[day].total += sessionSeconds;
+  studyData[day].sessions += 1;
+  localStorage.setItem('studyDataKey', JSON.stringify(studyData));
+  sessionSeconds = 0;
+  document.getElementById('sessionDisplay').innerText = '00:00:00';
+  document.getElementById('sessionStatus').innerText = 'Idle';
+}
+
+function setupCurrentDay() {
+  let d = new Date().getDay();
+  document.querySelectorAll('.day').forEach(btn => {
+    btn.classList.remove('today');
+    if (Number(btn.dataset.day) === d) btn.classList.add('today');
+  });
+}
+
+function updateWeekNumber() {
+  let now = new Date();
+  let start = new Date(now.getFullYear(), 0, 1);
+  let diff = (now - start) / 86400000;
+  let week = Math.ceil((diff + start.getDay() + 1) / 7);
+  document.getElementById('weekNumber').innerText = String(week).padStart(2, '0');
+}
+
+function openResetPopup() { document.getElementById('resetPopup').style.display = 'flex'; }
+function closeResetPopup() { document.getElementById('resetPopup').style.display = 'none'; }
+function confirmResetData() { studyData = {}; localStorage.removeItem('studyDataKey'); closeResetPopup(); }
+
+function showTimerFinishPopup(title, msg) {
+  document.getElementById('timerFinishTitle').innerText = title;
+  document.getElementById('timerFinishMessage').innerText = msg;
+  document.getElementById('timerFinishPopup').style.display = 'flex';
+}
+function closeTimerFinishPopup() { document.getElementById('timerFinishPopup').style.display = 'none'; }
+function closePopup(id) { document.getElementById(id).style.display = 'none'; }
+
+function openMarkAnalyze() { document.getElementById('markPopup').style.display = 'flex'; }
+function chooseMarkType(type) {
+  markType = type;
+  closePopup('markPopup');
+  let list = document.getElementById('markSubjectList');
+  list.innerHTML = '';
+  userSubjects.forEach(sub => {
+    let b = document.createElement('button');
+    b.className = 'mark-subject-btn';
+    b.innerText = sub;
+    b.onclick = () => selectMarkSubject(sub);
+    list.appendChild(b);
+  });
+  document.getElementById('markSubjectPopup').style.display = 'flex';
+}
+function selectMarkSubject(sub) {
+  markSubject = sub;
+  closePopup('markSubjectPopup');
+  document.getElementById('markActionSubject').innerText = sub;
+  document.getElementById('markActionPopup').style.display = 'flex';
+}
+function openAddMarks() { closePopup('markActionPopup'); document.getElementById('markFormPopup').style.display = 'flex'; }
+function openDisplayAnalyze() {
+  closePopup('markActionPopup');
+  document.getElementById('analysisTitle').innerText = markSubject + " - " + markType;
+  let details = document.getElementById('markDetails');
+  let key = markSubject + '_' + markType;
+  let records = markData[key] || [];
+  if (records.length === 0) {
+    details.innerHTML = "<p>No marks recorded yet.</p>";
+  } else {
+    let html = "<ul>";
+    records.forEach(r => {
+      html += `<li><strong>${r.paper}</strong>: Part 1 = ${r.p1}, Part 2 = ${r.p2} (Total: ${r.p1 + r.p2})</li>`;
+    });
+    html += "</ul>";
+    details.innerHTML = html;
+  }
+  document.getElementById('markAnalysisPopup').style.display = 'flex';
+}
+function saveMark() {
+  let name = document.getElementById('paperName').value.trim();
+  let p1 = parseInt(document.getElementById('part1Marks').value) || 0;
+  let p2 = parseInt(document.getElementById('part2Marks').value) || 0;
+  if (!name) { alert("Enter paper name!"); return; }
+  let key = markSubject + '_' + markType;
+  if (!markData[key]) markData[key] = [];
+  markData[key].push({ paper: name, p1: p1, p2: p2 });
+  localStorage.setItem('markDataKey', JSON.stringify(markData));
+  document.getElementById('paperName').value = '';
+  document.getElementById('part1Marks').value = '';
+  document.getElementById('part2Marks').value = '';
+  closePopup('markFormPopup');
+}
+
+function openSettings() { document.getElementById('settingsPopup').style.display = 'flex'; }
+function closeSettings() { document.getElementById('settingsPopup').style.display = 'none'; }
+function saveTheme() {
+  let root = document.documentElement;
+  if (document.getElementById('colorBg').value) root.style.setProperty('--theme-bg', document.getElementById('colorBg').value);
+  if (document.getElementById('colorCard').value) root.style.setProperty('--theme-card', document.getElementById('colorCard').value);
+  if (document.getElementById('colorInput').value) root.style.setProperty('--theme-input', document.getElementById('colorInput').value);
+  closeSettings();
+}
+function resetTheme() {
+  let root = document.documentElement;
+  root.style.setProperty('--theme-bg', '#080b14');
+  root.style.setProperty('--theme-card', '#131a2a');
+  root.style.setProperty('--theme-input', '#0d1422');
+  closeSettings();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  startApp();
+});
 </script>
 
 </body>
