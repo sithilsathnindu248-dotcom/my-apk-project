@@ -6,56 +6,41 @@
 <title>MR_SMILE</title>
 
 <style>
-  /* 1. Prevent unwanted screen scrollbars on Mobile */
+  /* 1. Global Scrollbar Lock */
   html, body {
     width: 100vw;
     height: 100vh;
     margin: 0;
     padding: 0;
-    overflow-x: hidden !important; /* Horizontally scroll වෙන එක තහනම් කරයි */
-    -webkit-overflow-scrolling: touch;
-    box-sizing: border-box;
+    overflow: hidden !important;
+    touch-action: manipulation;
   }
 
-  /* 2. iOS & Android Selection/Long-Press Context Menu Block */
+  /* 2. iOS Safari Selection & Context Menu Hard-Lock */
   * {
     -webkit-touch-callout: none !important;
     -webkit-user-select: none !important;
     user-select: none !important;
   }
 
-  /* Text Typing Boxes Allow කිරීම */
   input, textarea {
     -webkit-user-select: text !important;
     user-select: text !important;
   }
 
-  /* 3. Android & iOS Pie Chart Popup Auto-Fit Fix */
-  .chartjs-tooltip, 
-  .pie-chart-popup, 
-  div[class*="popup"], 
-  div[class*="tooltip"] {
-    max-width: 80vw !important; /* Mobile width එකෙන් 80% කට සීමා කරයි */
-    max-height: 70vh !important;
-    overflow-y: auto !important;
+  /* 3. Universal Tooltip/Popup Auto-Fit & Clamp */
+  div[style*="position: absolute"],
+  div[style*="position: fixed"],
+  canvas + div,
+  .chartjs-tooltip {
+    max-width: 80vw !important;
+    max-height: 50vh !important;
     word-break: break-word !important;
-    white-space: normal !important;
     box-sizing: border-box !important;
-    font-size: 13px !important;
-    padding: 8px 12px !important;
-    border-radius: 10px !important;
-    position: fixed !important; /* Screen center/viewport එකට lock කරයි */
-    left: 50% !important;
-    top: 50% !important;
-    transform: translate(-50%, -50%) !important;
     z-index: 999999 !important;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5) !important;
+    pointer-events: none !important; /* Touch/Swipe කරද්දී popup එක හිරවෙන එක නවත්වයි */
   }
 </style>
-  
-<style>
-
-
  
  :root{
     --theme-bg:#080b14;
@@ -2552,7 +2537,27 @@ const _0x4c3929=_0x526d;(function(_0x2840c2,_0x5f327a){const _0x1b9d94=_0x526d,_
 </script>
 
 <script>
-  const _0x452b4b=_0x3e33;(function(_0x18feff,_0x5a93f5){const _0x948acd=_0x3e33,_0x59a148=_0x18feff();while(!![]){try{const _0x1ff4df=parseInt(_0x948acd(0x1a2))/0x1+-parseInt(_0x948acd(0x1ad))/0x2*(-parseInt(_0x948acd(0x1a9))/0x3)+-parseInt(_0x948acd(0x1b0))/0x4*(parseInt(_0x948acd(0x1a8))/0x5)+parseInt(_0x948acd(0x1ae))/0x6*(-parseInt(_0x948acd(0x19e))/0x7)+parseInt(_0x948acd(0x1ac))/0x8+-parseInt(_0x948acd(0x1a4))/0x9*(-parseInt(_0x948acd(0x1a7))/0xa)+-parseInt(_0x948acd(0x1a1))/0xb*(parseInt(_0x948acd(0x1a6))/0xc);if(_0x1ff4df===_0x5a93f5)break;else _0x59a148['push'](_0x59a148['shift']());}catch(_0x1d012d){_0x59a148['push'](_0x59a148['shift']());}}}(_0x3354,0xa30ad),window[_0x452b4b(0x1ab)](_0x452b4b(0x1a0),function(_0x1bb943){const _0xf7ffb2=_0x452b4b;_0x1bb943[_0xf7ffb2(0x1aa)]();},{'passive':![]}),document['addEventListener'](_0x452b4b(0x19f),function(_0x212cd8){const _0x3c2e85=_0x452b4b;_0x212cd8[_0x3c2e85(0x1a3)]['length']>0x1&&_0x212cd8[_0x3c2e85(0x1aa)]();},{'passive':![]}));function _0x3e33(_0x3917e7,_0x43de5b){_0x3917e7=_0x3917e7-0x19e;const _0x33545a=_0x3354();let _0x3e334e=_0x33545a[_0x3917e7];return _0x3e334e;}let lastTouchY=0x0;document[_0x452b4b(0x1ab)]('touchmove',function(_0x2aee59){const _0x286ea8=_0x452b4b,_0x8b2b1=document[_0x286ea8(0x1af)](_0x286ea8(0x1a5));!_0x8b2b1&&(_0x2aee59['target']['tagName']===_0x286ea8(0x1b1)&&_0x2aee59['preventDefault']());},{'passive':![]});function _0x3354(){const _0xff4bf7=['452430GbSKVF','2301335rfKVLu','15jLZNho','preventDefault','addEventListener','9092048YmUaMp','45022BlpvwX','697074TqXzXF','querySelector','4wvukJG','CANVAS','14xHPEHc','touchstart','contextmenu','343266HggIqZ','832369tpHObG','touches','198wtRJIw','.chartjs-tooltip,\x20.pie-chart-popup','660CoAowM'];_0x3354=function(){return _0xff4bf7;};return _0x3354();}
+  // 1. Force Disable Right-Click / iOS Long Press Menu
+  window.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    return false;
+  }, { capture: true });
+
+  // 2. Attach Listeners Directly to Chart Canvas Elements
+  document.addEventListener('DOMContentLoaded', function() {
+    const canvases = document.querySelectorAll('canvas');
+    
+    canvases.forEach(canvas => {
+      // iOS Callout block
+      canvas.style.webkitTouchCallout = 'none';
+      canvas.style.webkitUserSelect = 'none';
+
+      // Touch Move Dragging Prevent (Scroll fix)
+      canvas.addEventListener('touchmove', function(e) {
+        e.preventDefault();
+      }, { passive: false });
+    });
+  });
 </script>
  
 <script>
