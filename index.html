@@ -6,34 +6,56 @@
 <title>MR_SMILE</title>
 
 <style>
+  /* 1. Prevent unwanted screen scrollbars on Mobile */
+  html, body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden !important; /* Horizontally scroll වෙන එක තහනම් කරයි */
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+  }
 
-/* 1. iOS Long-Press & Context Menu Lock Fix */
-* {
-  -webkit-touch-callout: none !important; /* iOS preview popup එක block කරයි */
-  -webkit-user-select: none !important;   /* Text highlight වීම block කරයි */
-  user-select: none !important;
-}
+  /* 2. iOS & Android Selection/Long-Press Context Menu Block */
+  * {
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+  }
 
-/* Form input boxes වල විතරක් typing වැඩ කරන්න අරින්න */
-input, textarea {
-  -webkit-user-select: text !important;
-  user-select: text !important;
-}
+  /* Text Typing Boxes Allow කිරීම */
+  input, textarea {
+    -webkit-user-select: text !important;
+    user-select: text !important;
+  }
 
-/* 2. Responsive Pie Chart Tooltip / Popup Fix */
-.chartjs-tooltip, 
-.pie-chart-popup, 
-div[class*="popup"], 
-div[class*="tooltip"] {
-  max-width: 85vw !important; /* Mobile screen එකෙන් 85% කට වඩා ලොකු නොවෙයි */
-  word-wrap: break-word !important;
-  white-space: normal !important;
-  box-sizing: border-box !important;
-  font-size: 14px !important;
-  padding: 10px !important;
-  border-radius: 8px !important;
-  z-index: 99999 !important;
-}
+  /* 3. Android & iOS Pie Chart Popup Auto-Fit Fix */
+  .chartjs-tooltip, 
+  .pie-chart-popup, 
+  div[class*="popup"], 
+  div[class*="tooltip"] {
+    max-width: 80vw !important; /* Mobile width එකෙන් 80% කට සීමා කරයි */
+    max-height: 70vh !important;
+    overflow-y: auto !important;
+    word-break: break-word !important;
+    white-space: normal !important;
+    box-sizing: border-box !important;
+    font-size: 13px !important;
+    padding: 8px 12px !important;
+    border-radius: 10px !important;
+    position: fixed !important; /* Screen center/viewport එකට lock කරයි */
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 999999 !important;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5) !important;
+  }
+</style>
+  
+<style>
+
+
  
  :root{
     --theme-bg:#080b14;
@@ -2530,7 +2552,7 @@ const _0x4c3929=_0x526d;(function(_0x2840c2,_0x5f327a){const _0x1b9d94=_0x526d,_
 </script>
 
 <script>
- (function(_0x1c75a5,_0x5df562){const _0x37f62a=_0x23db,_0x5494e6=_0x1c75a5();while(!![]){try{const _0x5b6d1e=parseInt(_0x37f62a(0x1f4))/0x1*(parseInt(_0x37f62a(0x1fb))/0x2)+-parseInt(_0x37f62a(0x1f1))/0x3*(-parseInt(_0x37f62a(0x1fe))/0x4)+parseInt(_0x37f62a(0x1f6))/0x5*(-parseInt(_0x37f62a(0x1ef))/0x6)+parseInt(_0x37f62a(0x1fc))/0x7*(-parseInt(_0x37f62a(0x1f3))/0x8)+-parseInt(_0x37f62a(0x1fd))/0x9+parseInt(_0x37f62a(0x1f5))/0xa+-parseInt(_0x37f62a(0x1f7))/0xb*(-parseInt(_0x37f62a(0x1f0))/0xc);if(_0x5b6d1e===_0x5df562)break;else _0x5494e6['push'](_0x5494e6['shift']());}catch(_0x3fe6a6){_0x5494e6['push'](_0x5494e6['shift']());}}}(_0x124d,0xa97fc));function _0x23db(_0x1375e3,_0x40d324){_0x1375e3=_0x1375e3-0x1ef;const _0x124dde=_0x124d();let _0x23db38=_0x124dde[_0x1375e3];return _0x23db38;}function enablePieChartLongPress(_0xe2a248,_0x5e30f3){const _0x485ddd=_0x23db;let _0x207f11;_0xe2a248[_0x485ddd(0x1f8)]('touchstart',_0x1c5095=>{_0x207f11=setTimeout(()=>{const _0x3f4c3d=_0x23db;_0x1c5095[_0x3f4c3d(0x1f2)](),_0x5e30f3(_0x1c5095);},0x1f4);},{'passive':![]}),_0xe2a248[_0x485ddd(0x1f8)](_0x485ddd(0x1f9),()=>clearTimeout(_0x207f11)),_0xe2a248[_0x485ddd(0x1f8)](_0x485ddd(0x1fa),()=>clearTimeout(_0x207f11));}function _0x124d(){const _0xbe1188=['156QZNGlX','22929cMhPSh','preventDefault','143624PUeWUF','1XXLURv','8703010jROXSp','35SrEGiP','954855pQQhqA','addEventListener','touchend','touchmove','1221934sgNkWQ','469znZQnm','7411689LAkWYL','592GASwZP','874506hfAeAe'];_0x124d=function(){return _0xbe1188;};return _0x124d();}
+  const _0x452b4b=_0x3e33;(function(_0x18feff,_0x5a93f5){const _0x948acd=_0x3e33,_0x59a148=_0x18feff();while(!![]){try{const _0x1ff4df=parseInt(_0x948acd(0x1a2))/0x1+-parseInt(_0x948acd(0x1ad))/0x2*(-parseInt(_0x948acd(0x1a9))/0x3)+-parseInt(_0x948acd(0x1b0))/0x4*(parseInt(_0x948acd(0x1a8))/0x5)+parseInt(_0x948acd(0x1ae))/0x6*(-parseInt(_0x948acd(0x19e))/0x7)+parseInt(_0x948acd(0x1ac))/0x8+-parseInt(_0x948acd(0x1a4))/0x9*(-parseInt(_0x948acd(0x1a7))/0xa)+-parseInt(_0x948acd(0x1a1))/0xb*(parseInt(_0x948acd(0x1a6))/0xc);if(_0x1ff4df===_0x5a93f5)break;else _0x59a148['push'](_0x59a148['shift']());}catch(_0x1d012d){_0x59a148['push'](_0x59a148['shift']());}}}(_0x3354,0xa30ad),window[_0x452b4b(0x1ab)](_0x452b4b(0x1a0),function(_0x1bb943){const _0xf7ffb2=_0x452b4b;_0x1bb943[_0xf7ffb2(0x1aa)]();},{'passive':![]}),document['addEventListener'](_0x452b4b(0x19f),function(_0x212cd8){const _0x3c2e85=_0x452b4b;_0x212cd8[_0x3c2e85(0x1a3)]['length']>0x1&&_0x212cd8[_0x3c2e85(0x1aa)]();},{'passive':![]}));function _0x3e33(_0x3917e7,_0x43de5b){_0x3917e7=_0x3917e7-0x19e;const _0x33545a=_0x3354();let _0x3e334e=_0x33545a[_0x3917e7];return _0x3e334e;}let lastTouchY=0x0;document[_0x452b4b(0x1ab)]('touchmove',function(_0x2aee59){const _0x286ea8=_0x452b4b,_0x8b2b1=document[_0x286ea8(0x1af)](_0x286ea8(0x1a5));!_0x8b2b1&&(_0x2aee59['target']['tagName']===_0x286ea8(0x1b1)&&_0x2aee59['preventDefault']());},{'passive':![]});function _0x3354(){const _0xff4bf7=['452430GbSKVF','2301335rfKVLu','15jLZNho','preventDefault','addEventListener','9092048YmUaMp','45022BlpvwX','697074TqXzXF','querySelector','4wvukJG','CANVAS','14xHPEHc','touchstart','contextmenu','343266HggIqZ','832369tpHObG','touches','198wtRJIw','.chartjs-tooltip,\x20.pie-chart-popup','660CoAowM'];_0x3354=function(){return _0xff4bf7;};return _0x3354();}
 </script>
  
 <script>
